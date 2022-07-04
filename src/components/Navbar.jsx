@@ -31,7 +31,7 @@ function Navbar() {
 					More
 				</Button>
 			</div>
-			<div className="flex-1 flex flex-row items-center">
+			<div className="flex flex-row items-center">
 				<ReactSwitch
 					checked={isChecked}
 					onChange={() => setIsChecked(!isChecked)}

@@ -1,6 +1,6 @@
 export default function Button({
 	children,
-	className,
+	className = '',
 	onClick,
 	activeButton,
 	type

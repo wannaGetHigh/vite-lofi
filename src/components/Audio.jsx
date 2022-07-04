@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext, useRef, useEffect } from 'react'
 import Button from './Button'
 import {
 	prevIcon,
@@ -7,9 +7,37 @@ import {
 	pauseIcon,
 	clockIcon
 } from '../assets/icons'
+import { AppContext } from '../context/AppProvider'
+import { nextSong, prevSong } from '../utils'
 
 function Audio() {
+	const { currentSong, setCurrentSong } = useContext(AppContext)
+	const audioRef = useRef()
 	const [isPlaying, setIsPlaying] = useState(false)
+
+	const handleNextSong = () => {
+		const newSong = nextSong(currentSong.list, currentSong.index)
+		setCurrentSong(newSong)
+		setIsPlaying(true)
+		audioRef.current.autoplay = true
+	}
+
+	const handlePrevSong = () => {
+		const newSong = prevSong(currentSong.list, currentSong.index)
+		setCurrentSong(newSong)
+		setIsPlaying(true)
+		audioRef.current.autoplay = true
+	}
+
+	const handlePlay = () => {
+		setIsPlaying(true)
+		audioRef.current.play()
+	}
+
+	const handlePause = () => {
+		audioRef.current.pause()
+		setIsPlaying(false)
+	}
 
 	return (
 		<div className="fixed bottom-0 w-screen z-20">
@@ -18,16 +46,22 @@ function Audio() {
 					Music by - lofi.co 2021 &copy;
 				</p>
 				<div className="flex-1 flex justify-center items-center">
-					<Button>
+					<Button onClick={handlePrevSong}>
 						<img src={prevIcon} alt="prev" />
 					</Button>
-					<Button className={`mx-4 ${isPlaying ? 'hidden' : ''}`}>
+					<Button
+						className={`mx-4 ${isPlaying ? 'hidden' : ''}`}
+						onClick={handlePlay}
+					>
 						<img src={playIcon} alt="play" width={54} height={54} />
 					</Button>
-					<Button className={`mx-4 ${!isPlaying ? 'hidden' : ''}`}>
+					<Button
+						className={`mx-4 ${!isPlaying ? 'hidden' : ''}`}
+						onClick={handlePause}
+					>
 						<img src={pauseIcon} alt="pause" width={54} height={54} />
 					</Button>
-					<Button>
+					<Button onClick={handleNextSong}>
 						<img src={nextIcon} alt="next" />
 					</Button>
 				</div>
@@ -45,6 +79,7 @@ function Audio() {
 					</p>
 				</div>
 			</div>
+			<audio preload="auto" ref={audioRef} src={currentSong.link} />
 		</div>
 	)
 }
