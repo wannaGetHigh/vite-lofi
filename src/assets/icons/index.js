@@ -51,6 +51,12 @@ import volumeMinIcon from './volume-min.svg'
 import xIcon from './x.svg'
 import expandIcon from './expand.svg'
 import shareIcon from './share.svg'
+import barsIcon from './bars.svg'
+import sawIcon from './saw.svg'
+import messageIcon from './message.svg'
+import spotifyIcon from './spotify.svg'
+import playlistIcon from './playlist.svg'
+import infoIcon from './info.svg'
 
 import cityIcon from './noises/city.svg'
 import cityRainIcon from './noises/city-rain.svg'
@@ -71,6 +77,7 @@ import keyboardIcon from './noises/keyboard.svg'
 
 export {
 	threeDotsIcon,
+	sawIcon,
 	activityIcon,
 	arrowLeftIcon,
 	binIcon,
@@ -138,5 +145,10 @@ export {
 	snowIcon,
 	keyboardIcon,
 	expandIcon,
-	shareIcon
+	shareIcon,
+	barsIcon,
+	messageIcon,
+	spotifyIcon,
+	playlistIcon,
+	infoIcon
 }

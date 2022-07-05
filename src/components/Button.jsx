@@ -9,7 +9,7 @@ export default function Button({
 		<button
 			type={type}
 			onClick={onClick}
-			className={`text-white transition-all duration-200 ease-linear hover:opacity-80 ${
+			className={`text-white transition-all duration-200 ease-linear hover:opacity-50 ${
 				activeButton ? 'active:translate-y-0.5 ' : ''
 			}${className}`}
 		>
