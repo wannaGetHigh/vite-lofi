@@ -4,7 +4,10 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: '#f3a952',
-				bl: '#070707'
+				bl: '#070707',
+				'semi-bl': '#0005',
+				'bl-20': '#141414',
+				gr: '#141414'
 			},
 			backgroundColor: (theme) => ({
 				...theme('colors'),

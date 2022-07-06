@@ -75,6 +75,13 @@ import oceanIcon from './noises/ocean.svg'
 import snowIcon from './noises/snow.svg'
 import keyboardIcon from './noises/keyboard.svg'
 
+import chillTemplateIcon from './templates/chill.svg'
+import chillActiveIcon from './templates/chill-active.svg'
+import focusTemplateIcon from './templates/focus.svg'
+import focusActiveIcon from './templates/focus-active.svg'
+import sleepyTemplateIcon from './templates/sleepy.svg'
+import sleepyActiveIcon from './templates/sleepy-active.svg'
+
 export {
 	threeDotsIcon,
 	sawIcon,
@@ -150,5 +157,11 @@ export {
 	messageIcon,
 	spotifyIcon,
 	playlistIcon,
-	infoIcon
+	infoIcon,
+	chillTemplateIcon,
+	chillActiveIcon,
+	focusTemplateIcon,
+	focusActiveIcon,
+	sleepyTemplateIcon,
+	sleepyActiveIcon
 }

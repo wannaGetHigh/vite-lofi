@@ -16,6 +16,8 @@ import useClickOutside from '../../hook/useClickOutside'
 function Sidebar() {
 	const [menuTab, setMenuTab] = useState()
 	const modalRef = useRef(null)
+
+	// Close Menu tab when click outside modal
 	useClickOutside(modalRef, () => setMenuTab(null))
 
 	const items = [
@@ -26,10 +28,20 @@ function Sidebar() {
 	]
 
 	return (
-		<div
-			className="fixed flex flex-row-reverse items-center right-0 top-1/2 -translate-y-1/2 z-10"
-			ref={modalRef}
-		>
+		<div className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-10">
+			{menuTab && (
+				<>
+					<div
+						className="w-[345px] bg-bl rounded-3xl overflow-hidden z-20"
+						ref={modalRef}
+					>
+						{menuTab === 'mood' && <Mood />}
+						{menuTab === 'template' && <Template />}
+						{menuTab === 'set' && <Set />}
+						{menuTab === 'focus' && <Focus />}
+					</div>
+				</>
+			)}
 			<div className="flex flex-col justify-center h-[280px] w-[70px] bg-transparent-b-60 rounded-full overflow-hidden cursor-pointer mr-5">
 				{items.map((item) => (
 					<div
@@ -40,7 +52,6 @@ function Sidebar() {
 						onClick={() => setMenuTab(item.alt)}
 					>
 						<img
-							loading="lazy"
 							src={item.src}
 							alt={item.alt}
 							className={item.alt === 'focus' ? 'scale-[0.4]' : 'scale-150'}
@@ -51,17 +62,6 @@ function Sidebar() {
 					</div>
 				))}
 			</div>
-
-			{menuTab && (
-				<>
-					<div className="w-[345px] bg-bl rounded-3xl z-20">
-						{menuTab === 'mood' && <Mood />}
-						{menuTab === 'template' && <Template />}
-						{menuTab === 'set' && <Set />}
-						{menuTab === 'focus' && <Focus />}
-					</div>
-				</>
-			)}
 		</div>
 	)
 }
