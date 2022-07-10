@@ -4,11 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
 	display: none !important;
-}
+} */
 
 html {
 	color: #fff;
 	font-family: 'Roboto', sans-serif;
+}
+
+.slick-active div {
+	opacity: 1;
 }

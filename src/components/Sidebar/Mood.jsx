@@ -7,7 +7,7 @@ import {
 	volumeMinIcon,
 	volumeMaxIcon
 } from '../../assets/icons'
-import { NOISE_ICONS } from '../../constants/icons'
+import { NOISE_ICONS } from '../../constants'
 
 function Mood() {
 	const initNoisesList = NOISE_ICONS.slice(0, 3)
@@ -31,11 +31,11 @@ function Mood() {
 		<>
 			{/* Title */}
 			<div className="mx-8">
-				<h4 className="my-4 text-xl font-bold">Mood</h4>
+				<h4 className="my-4 text-xl font-bold select-none">Mood</h4>
 			</div>
 
 			{/* Mood selection */}
-			<div className="flex flex-row item-center justify-between mx-8 my-4">
+			<div className="flex flex-row item-center justify-between mx-8 my-4 overflow-hidden">
 				{moods.map((mood) => (
 					<div
 						key={mood.text}
@@ -74,14 +74,16 @@ function Mood() {
 			</div>
 
 			{/* Background noises */}
-			<h4 className="text-xl mt-[30px] mx-8 mb-2">Background noises</h4>
+			<h4 className="text-xl mt-[30px] mx-8 mb-2 select-none">
+				Background noises
+			</h4>
 			<div className="max-h-[280px] overflow-y-auto">
 				{noisesList.map(({ label, icon }) => (
 					<div
 						key={label}
 						className="flex flex-row justify-between items-center mx-8 my-4"
 					>
-						<p className="opacity-40 text-sm">{label}</p>
+						<p className="opacity-40 text-sm select-none">{label}</p>
 						<ReactSlider
 							className="h-6 w-[148px] bg-bl-20 rounded-full mr-1"
 							defaultValue={0}

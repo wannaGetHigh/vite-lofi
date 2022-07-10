@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { SETS } from '../../constants/sets'
+import { SETS } from '../../constants'
 import Button from '../Button'
 
 function Set() {

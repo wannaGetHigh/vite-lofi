@@ -1,4 +1,4 @@
-import { FOCUS_ICONS } from '../../constants/icons'
+import { FOCUS_ICONS } from '../../constants'
 
 function Focus() {
 	return (

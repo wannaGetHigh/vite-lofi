@@ -48,7 +48,7 @@ import tomatoIcon from './tomato.svg'
 import twitterIcon from './twitter.svg'
 import volumeMaxIcon from './volume-max.svg'
 import volumeMinIcon from './volume-min.svg'
-import xIcon from './x.svg'
+import uncheckIcon from './x.svg'
 import expandIcon from './expand.svg'
 import shareIcon from './share.svg'
 import barsIcon from './bars.svg'
@@ -134,7 +134,7 @@ export {
 	twitterIcon,
 	volumeMaxIcon,
 	volumeMinIcon,
-	xIcon,
+	uncheckIcon,
 	cityIcon,
 	cityRainIcon,
 	fireplaceIcon,

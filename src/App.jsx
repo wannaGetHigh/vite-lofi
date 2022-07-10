@@ -2,6 +2,7 @@ import Background from './components/Background'
 import Navbar from './components/Navbar'
 import Audio from './components/Audio'
 import Sidebar from './components/Sidebar'
+import Modal from './components/Modal/Modal'
 
 function App() {
 	return (
@@ -13,6 +14,8 @@ function App() {
 			<Audio />
 
 			<Sidebar />
+
+			<Modal />
 		</div>
 	)
 }
