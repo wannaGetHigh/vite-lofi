@@ -10,7 +10,7 @@ import {
 	arrowLeftIcon
 } from '../../assets/icons'
 
-function InfoModal() {
+function AboutModal() {
 	const { setModalType } = useContext(AppContext)
 	const [about, setAbout] = useState('about')
 
@@ -557,4 +557,4 @@ function PrivacyPolicity({ setAbout }) {
 	)
 }
 
-export default InfoModal
+export default AboutModal

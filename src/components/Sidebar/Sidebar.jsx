@@ -1,12 +1,6 @@
 import { useState, useRef } from 'react'
 
-import {
-	moodIcon,
-	templateIcon,
-	setIcon,
-	focusIcon,
-	borderBrIcon
-} from '../../assets/icons'
+import { moodIcon, templateIcon, setIcon, focusIcon } from '../../assets/icons'
 import Mood from './Mood'
 import Template from './Template'
 import Set from './Set'
@@ -28,17 +22,17 @@ function Sidebar() {
 	]
 
 	return (
-		<div className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-10">
+		<div
+			className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-10"
+			ref={modalRef}
+		>
 			{menuTab && (
 				<>
-					<div
-						className="w-[345px] bg-bl rounded-3xl overflow-hidden z-20"
-						ref={modalRef}
-					>
+					<div className="w-[345px] bg-bl rounded-3xl overflow-hidden z-20">
 						{menuTab === 'mood' && <Mood />}
 						{menuTab === 'template' && <Template />}
 						{menuTab === 'set' && <Set />}
-						{menuTab === 'focus' && <Focus />}
+						{menuTab === 'focus' && <Focus setMenuTab={setMenuTab} />}
 					</div>
 				</>
 			)}
@@ -49,13 +43,16 @@ function Sidebar() {
 						className={`w-[70px] h-[70px] z-20 ${
 							menuTab === item.alt ? 'bg-bl' : 'opacity-20 brightness-200'
 						}`}
-						onClick={() => setMenuTab(item.alt)}
+						onClick={() =>
+							menuTab === item.alt ? setMenuTab(null) : setMenuTab(item.alt)
+						}
 					>
 						<img
 							src={item.src}
 							alt={item.alt}
 							className={item.alt === 'focus' ? 'scale-[0.4]' : 'scale-150'}
 						/>
+						{/* Separate line */}
 						{item.alt !== 'focus' && (
 							<div className="w-[50px] m-auto border-solid border-b-2 border-[#fff3]"></div>
 						)}

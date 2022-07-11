@@ -16,7 +16,7 @@ function CarouselText({
 	title2,
 	desc1,
 	desc2,
-	handleNextSlide
+	handleNextSlide,
 }) {
 	const { setModalType } = useContext(AppContext)
 
@@ -30,14 +30,14 @@ function CarouselText({
 			<div className="flex flex-col justify-center items-center">
 				{last ? (
 					<Button
-						className="w-[120px] py-[6px] px-4 text-base text-black font-semibold rounded-full bg-primary"
+						className="w-[120px] py-1.5 px-4 text-base text-black font-semibold rounded-full bg-primary"
 						onClick={() => setModalType(null)}
 					>
 						Next
 					</Button>
 				) : (
 					<Button
-						className="w-[120px] py-[6px] px-4 text-base text-black font-semibold rounded-full bg-primary"
+						className="w-[120px] py-1.5 px-4 text-base text-black font-semibold rounded-full bg-primary"
 						onClick={handleNextSlide}
 					>
 						{first ? 'Take tour' : 'Next'}
@@ -76,7 +76,7 @@ function Carousel() {
 					top: '360px',
 					bottom: 'unset',
 					display: 'flex',
-					justifyContent: 'center'
+					justifyContent: 'center',
 				}}
 			>
 				{dots}
@@ -86,7 +86,7 @@ function Carousel() {
 			<div className="w-full h-full py-1 opacity-50 hover:opacity-100 duration-200 ease-in">
 				<div className="h-1 bg-white rounded-2xl"></div>
 			</div>
-		)
+		),
 	}
 
 	return (

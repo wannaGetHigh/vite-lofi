@@ -2,6 +2,11 @@ module.exports = {
 	content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 	theme: {
 		extend: {
+			animation: {
+				fadeIn: 'fadeIn 0.3s ease',
+				fadeIn1s: 'fadeIn 1s ease',
+				fadeOut: 'fadeOut 0.3s ease'
+			},
 			colors: {
 				primary: '#f3a952',
 				bl: '#070707',
@@ -32,6 +37,16 @@ module.exports = {
 			flex: {
 				leftside: '0 0 58.33333333%',
 				rightside: '0 0 41.66666667%'
+			},
+			keyframes: {
+				fadeIn: {
+					'0%': { opacity: 0 },
+					'100%': { opacity: 1 }
+				},
+				fadeOut: {
+					'0%': { opacity: 1 },
+					'100%': { opacity: 0 }
+				}
 			}
 		}
 	},

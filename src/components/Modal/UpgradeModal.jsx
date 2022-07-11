@@ -19,7 +19,7 @@ function Carousel() {
 		autoplaySpeed: 1000,
 		cssEase: 'linear',
 		slidesToShow: 1,
-		slidesToScroll: 1
+		slidesToScroll: 1,
 	}
 
 	return (
@@ -88,7 +88,7 @@ function UpgradeModal() {
 							</p>
 							<p className="min-h-[32px]"></p>
 
-							<Button className="w-full px-4 py-[6px] my-4 text-primary font-semibold border-primary border rounded-full bg-transparent-b-10">
+							<Button className="w-full px-4 py-1.5 my-4 text-primary font-semibold border-primary border rounded-full bg-transparent-b-10">
 								Current plan
 							</Button>
 							{BASIC_PACKAGE.map((item, i) => (
@@ -128,7 +128,7 @@ function UpgradeModal() {
 							<p className="min-h-[32px] text-primary text-center">
 								*7-day money back guarantee
 							</p>
-							<Button className="w-full px-4 py-[6px] my-4 text-black font-semibold border-primary border rounded-full bg-primary">
+							<Button className="w-full px-4 py-1.5 my-4 text-black font-semibold border-primary border rounded-full bg-primary">
 								Upgrade
 							</Button>
 							{PREMIUM_PACKAGE.map((item, i) => (

@@ -26,7 +26,7 @@ function SettingModal() {
 				<label className="my-2 text-sm opacity-50">Subject</label>
 				<textarea className="mb-[24px] h-[120px] bg-transparent-w-05 caret-primary py-2 px-4 rounded-lg outline-none border-2 border-transparent resize-none" />
 
-				<Button className="w-full px-4 py-[6px] mt-auto rounded-full text-black font-semibold bg-primary">
+				<Button className="w-full px-4 py-1.5 mt-auto rounded-full text-black font-semibold bg-primary">
 					Send
 				</Button>
 			</div>

@@ -1,4 +1,5 @@
 export { default as JAZZY_LINKS } from './links/jazzy'
+export { default as ALARM_LINKS } from './links/alarms'
 export * from './icons'
 export * from './backages'
 export * from './videos'

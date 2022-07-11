@@ -7,7 +7,9 @@ import UpgradeModal from './UpgradeModal'
 import SettingModal from './SettingModal'
 import ContactModal from './ContactModal'
 import TutorialModal from './TutorialModal'
-import InfoModal from './InfoModal'
+import AboutModal from './AboutModal'
+import SessionModal from './SessionModal'
+import TaskModal from './TaskModal'
 
 function Modal() {
 	const { modalType } = useContext(AppContext)
@@ -30,7 +32,9 @@ function Modal() {
 					{modalType === 'settings' && <SettingModal />}
 					{modalType === 'contact' && <ContactModal />}
 					{modalType === 'tutorial' && <TutorialModal />}
-					{modalType === 'info' && <InfoModal />}
+					{modalType === 'info' && <AboutModal />}
+					{modalType === 'session' && <SessionModal />}
+					{modalType === 'tasks' && <TaskModal />}
 				</div>
 			</Transition.Child>
 		</Transition>

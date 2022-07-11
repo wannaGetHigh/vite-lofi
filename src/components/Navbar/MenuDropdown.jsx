@@ -20,7 +20,7 @@ function MenuDropdow() {
 		{
 			icon: profileIcon,
 			alt: 'profile',
-			text: 'User settings'
+			text: 'Login'
 		},
 		{
 			icon: sawIcon,

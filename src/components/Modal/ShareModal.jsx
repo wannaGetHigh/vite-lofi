@@ -37,7 +37,7 @@ function ShareModal() {
 						with your friends
 					</p>
 					<div
-						className={`bg-bl-13 mt-4 mb-[10px] px-4 py-1 text-xs text-left rounded-lg cursor-pointer ${
+						className={`bg-transparent-w-05 mt-4 mb-[10px] px-4 py-1 text-sm text-left rounded-lg cursor-pointer ${
 							copied ? 'border border-2 border-[#00ff0033]' : ''
 						}`}
 						onClick={handleCopyToClipboard}

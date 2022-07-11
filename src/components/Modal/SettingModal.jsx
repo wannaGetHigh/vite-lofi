@@ -45,7 +45,7 @@ function SettingModal() {
 					<p className="text-primary">15 sec</p>
 				</div>
 				<div className="flex-1"></div>
-				<Button className="w-full px-4 py-[6px] mt-auto rounded-full text-black font-semibold bg-primary">
+				<Button className="w-full px-4 py-1.5 mt-auto rounded-full text-black font-semibold bg-primary">
 					Save
 				</Button>
 			</div>
