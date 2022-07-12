@@ -10,7 +10,7 @@ import {
 	messageIcon,
 	spotifyIcon,
 	playlistIcon,
-	infoIcon
+	infoIcon,
 } from '../../assets/icons'
 
 function MenuDropdow() {
@@ -20,7 +20,7 @@ function MenuDropdow() {
 		{
 			icon: profileIcon,
 			alt: 'profile',
-			text: 'Login'
+			text: 'Login',
 		},
 		{
 			icon: sawIcon,
@@ -28,7 +28,7 @@ function MenuDropdow() {
 			text: 'General settings',
 			onClick() {
 				setModalType('settings')
-			}
+			},
 		},
 		{
 			icon: messageIcon,
@@ -36,7 +36,7 @@ function MenuDropdow() {
 			text: 'Contact us',
 			onClick() {
 				setModalType('contact')
-			}
+			},
 		},
 		{
 			icon: sawIcon,
@@ -44,7 +44,7 @@ function MenuDropdow() {
 			text: 'How it works',
 			onClick() {
 				setModalType('tutorial')
-			}
+			},
 		},
 		{
 			icon: spotifyIcon,
@@ -53,9 +53,9 @@ function MenuDropdow() {
 			onClick() {
 				window.open(
 					'https://open.spotify.com/playlist/0iepisLXvVe5RxB3owHjlj?si=8bce4ca31f5740e8&nd=1',
-					'_blank'
+					'_blank',
 				)
-			}
+			},
 		},
 		{
 			icon: playlistIcon,
@@ -64,9 +64,9 @@ function MenuDropdow() {
 			onClick() {
 				window.open(
 					'https://docs.google.com/forms/d/e/1FAIpQLSe9b5QI8zHE6ufCTI735ZSncZ55LE0mWxAhBl2FIiVgOALLYA/viewform',
-					'_blank'
+					'_blank',
 				)
-			}
+			},
 		},
 		{
 			icon: infoIcon,
@@ -74,14 +74,14 @@ function MenuDropdow() {
 			text: 'About us',
 			onClick() {
 				setModalType('info')
-			}
-		}
+			},
+		},
 	]
 
 	return (
 		<Menu>
 			<Menu.Button className="hover:opacity-50">
-				<img src={barsIcon} alt="more-nav" />
+				<img src={barsIcon} alt="more-nav" className="w-8 h-8" />
 			</Menu.Button>
 			<Menu.Items className="fixed top-[80px] right-0 rounded-l-lg overflow-hidden">
 				{items.map((item) => (

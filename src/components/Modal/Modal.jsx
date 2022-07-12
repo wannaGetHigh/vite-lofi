@@ -10,10 +10,28 @@ import TutorialModal from './TutorialModal'
 import AboutModal from './AboutModal'
 import SessionModal from './SessionModal'
 import TaskModal from './TaskModal'
+import NotesModal from './NotesModal'
+import EndSession from './EndSession'
+import HistoryModal from './HistoryModal'
 
 function Modal() {
 	const { modalType } = useContext(AppContext)
-	console.log(modalType)
+
+	const modals = {
+		share: ShareModal,
+		upgrade: UpgradeModal,
+		settings: SettingModal,
+		contact: ContactModal,
+		tutorial: TutorialModal,
+		info: AboutModal,
+		session: SessionModal,
+		tasks: TaskModal,
+		notes: NotesModal,
+		history: HistoryModal,
+		'end-session': EndSession,
+	}
+
+	const Modal = modalType ? modals[modalType] : () => null
 
 	return (
 		<Transition show={!!modalType} as={Fragment}>
@@ -27,14 +45,7 @@ function Modal() {
 				leaveTo="opacity-0"
 			>
 				<div className="min-h-screen w-screen flex justify-center items-center text-white z-50">
-					{modalType === 'share' && <ShareModal />}
-					{modalType === 'upgrade' && <UpgradeModal />}
-					{modalType === 'settings' && <SettingModal />}
-					{modalType === 'contact' && <ContactModal />}
-					{modalType === 'tutorial' && <TutorialModal />}
-					{modalType === 'info' && <AboutModal />}
-					{modalType === 'session' && <SessionModal />}
-					{modalType === 'tasks' && <TaskModal />}
+					<Modal />
 				</div>
 			</Transition.Child>
 		</Transition>

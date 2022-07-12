@@ -4,13 +4,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
 	display: none !important;
-} */
+}
 
 html {
 	color: #fff;
 	font-family: 'Roboto', sans-serif;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+input,
+textarea {
+	outline: none;
+	caret-color: #f3a952;
+	color: #fff;
 }
 
 .slick-active div {

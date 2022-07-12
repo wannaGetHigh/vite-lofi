@@ -62,11 +62,11 @@ function Navbar() {
 				)}
 
 				<Button onClick={() => setModalType('share')}>
-					<img src={shareIcon} alt="share-link" />
+					<img src={shareIcon} alt="share-link" className="w-8 h-8" />
 				</Button>
 
 				<Button onClick={toggleFullscreen}>
-					<img src={expandIcon} alt="full-screen" />
+					<img src={expandIcon} alt="full-screen" className="w-8 h-8" />
 				</Button>
 
 				<MenuDropdow />

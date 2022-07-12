@@ -43,7 +43,7 @@ function SessionModal() {
 							if (e.key === 'Enter') startSession()
 						}}
 						placeholder="Session name"
-						className="w-full my-2 px-4 py-2 caret-primary bg-transparent-w-05 rounded-2xl outline-none"
+						className="w-full my-2 px-4 py-2 bg-transparent-w-05 rounded-2xl"
 					/>
 
 					<Button

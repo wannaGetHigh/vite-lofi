@@ -35,7 +35,7 @@ function TaskModal() {
 					{timerMode ? (
 						<Timer setTimerMode={setTimerMode} />
 					) : (
-						<Task setTimerMode={setTimerMode} />
+						<Task setTimerMode={setTimerMode} setModalType={setModalType} />
 					)}
 				</div>
 			</div>
@@ -43,29 +43,50 @@ function TaskModal() {
 	)
 }
 
-function Task({ setTimerMode }) {
+function Task({ setTimerMode, setModalType }) {
+	const [isPomodoroTime, setIsPomodoroTime] = useState(true)
+	const [isBreakTime, setIsBreakTime] = useState(false)
+
 	return (
 		<>
-			<div className="relative handle cursor-move">
+			<div className="relative w-5/6 handle cursor-move">
 				<h3 className="text-3xl font-bold select-none">Timer and Tasks</h3>
 				<img
 					src={titleTasksIcon}
-					alt="title-draw"
+					alt="title task"
 					className="absolute -bottom-3 left-0 w-[220px]"
 				/>
 			</div>
 
 			<div className="flex justify-between my-5 p-2 bg-transparent-w-05 rounded-full">
-				<Button className="flex-1 py-1.5 px-6 bg-primary text-sm font-semibold text-black text-center rounded-full">
+				<Button
+					className={`flex-1 py-1.5 px-6 text-sm font-semibold text-center rounded-full ${
+						isPomodoroTime ? 'bg-primary text-black' : 'opacity-50'
+					} hover:opacity-100`}
+					onClick={() => {
+						setIsPomodoroTime(true)
+						setIsBreakTime(false)
+					}}
+				>
 					Pomodoro
 				</Button>
-				<Button className="flex-1 py-1.5 px-6 bg-primary text-sm font-semibold text-black text-center rounded-full">
+				<Button
+					className={`flex-1 py-1.5 px-6  text-sm font-semibold text-center rounded-full ${
+						isBreakTime ? 'bg-primary text-black' : 'opacity-50'
+					} hover:opacity-100`}
+					onClick={() => {
+						setIsPomodoroTime(false)
+						setIsBreakTime(true)
+					}}
+				>
 					Break
 				</Button>
 			</div>
 
 			<div className="flex flex-col items-center bg-transparent-w-05 rounded-lg py-5">
-				<p className="text-5xl font-bold">25:00</p>
+				<p className="text-5xl font-bold">
+					{isPomodoroTime ? '25:00' : '05:00'}
+				</p>
 				<p className="text-xl font-semibold opacity-50">coding</p>
 				<div className="flex my-4">
 					<Button className="flex-1 py-1 px-6 bg-primary text-base font-bold text-black text-center rounded-full">
@@ -79,6 +100,13 @@ function Task({ setTimerMode }) {
 						/>
 					</Button>
 				</div>
+
+				<Button
+					className="w-[120px] px-3 py-[3px] border border-white rounded-full text-sm"
+					onClick={() => setModalType('end-session')}
+				>
+					End session
+				</Button>
 			</div>
 
 			<div className="flex justify-between my-3">
@@ -140,7 +168,7 @@ function Timer({ setTimerMode }) {
 							type="number"
 							min={1}
 							value={pomodoroTime}
-							className="w-1/3 text-center pointer-events-none bg-inherit"
+							className="w-1/3 text-right pointer-events-none bg-inherit"
 						/>
 						<img
 							src={plusIcon}
@@ -164,7 +192,7 @@ function Timer({ setTimerMode }) {
 							type="number"
 							min={1}
 							value={breakTime}
-							className="w-1/3 text-center pointer-events-none bg-inherit"
+							className="w-1/3 text-right pointer-events-none bg-inherit"
 						/>
 						<img
 							src={plusIcon}
