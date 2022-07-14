@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useRef } from 'react'
 import Draggable from 'react-draggable'
 import ReactSwitch from 'react-switch'
-import { Listbox, Menu, Transition } from '@headlessui/react'
+import { Listbox, Popover } from '@headlessui/react'
 
 import Button from '../Button'
 import { AppContext } from '../../context/AppProvider'
@@ -11,10 +11,15 @@ import {
 	skipIcon,
 	titleTasksIcon,
 	settingIcon,
-	emptyIcon,
 	arrowLeftIcon,
 	minusIcon,
 	plusIcon,
+	emptyIcon,
+	taskCheckIcon,
+	taskUnCheckIcon,
+	threeDotsIcon,
+	currentIcon,
+	binIcon,
 } from '../../assets/icons'
 
 function TaskModal() {
@@ -23,9 +28,9 @@ function TaskModal() {
 
 	return (
 		<Draggable handle=".handle">
-			<div className="relative w-[440px] bg-bl rounded-2xl select-none z-50">
+			<div className="relative w-[440px] bg-bl rounded-2xl select-none z-40">
 				<Button
-					className="absolute top-4 right-4 hover:opacity-50 cursor-pointer"
+					className="absolute top-4 right-4"
 					onClick={() => setModalType(null)}
 				>
 					<img src={closeIcon} alt="close share" />
@@ -46,6 +51,54 @@ function TaskModal() {
 function Task({ setTimerMode, setModalType }) {
 	const [isPomodoroTime, setIsPomodoroTime] = useState(true)
 	const [isBreakTime, setIsBreakTime] = useState(false)
+	const [isAddingTask, setIsAddingTask] = useState(false)
+	const [taskList, setTaskList] = useState([])
+	const [taskName, setTaskName] = useState('')
+
+	// Add new task
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter' && taskName) {
+			setTaskList((prev) => [
+				...prev,
+				{
+					id: Math.random(),
+					completed: false,
+					name: taskName,
+					isCurrent: false,
+				},
+			])
+			setTaskName('')
+		} else if (e.key === 'Escape') {
+			setIsAddingTask(false)
+			setTaskName('')
+		}
+	}
+
+	const deleteTask = (id) => {
+		setTaskList((prev) => prev.filter((task) => task.id !== id))
+	}
+
+	const toggleCompleteTask = (id) => {
+		setTaskList((prev) =>
+			prev.map((task) =>
+				task.id === id ? { ...task, completed: !task.completed } : task,
+			),
+		)
+	}
+
+	const setCurrentTask = (id) => {
+		setTaskList((prev) =>
+			prev.map((task) =>
+				task.id === id
+					? { ...task, isCurrent: true }
+					: { ...task, isCurrent: false },
+			),
+		)
+	}
+
+	const unsetCurrentTask = () => {
+		setTaskList((prev) => prev.map((task) => ({ ...task, isCurrent: false })))
+	}
 
 	return (
 		<>
@@ -119,15 +172,98 @@ function Task({ setTimerMode, setModalType }) {
 				</Button>
 			</div>
 
-			<div className="flex flex-col items-center justify-center bg-transparent-w-05 rounded-lg py-5">
-				<img src={emptyIcon} alt="empty task" />
+			<div className="flex flex-col justify-center bg-transparent-w-05 rounded-lg py-3">
+				{taskList.length === 0 ? (
+					<img src={emptyIcon} alt="empty task" className="h-10" />
+				) : (
+					taskList.map((task) => (
+						<div key={task.id} className="flex mx-4 my-1">
+							<Button onClick={toggleCompleteTask.bind(this, task.id)}>
+								<img
+									src={task.completed ? taskCheckIcon : taskUnCheckIcon}
+									alt="uncompleted"
+									className="w-5 h-5"
+								/>
+							</Button>
+							<p className="grow text-sm px-4 py-1">{task.name}</p>
+							{task.isCurrent && (
+								<img
+									src={currentIcon}
+									alt="current task"
+									className="mx-2 h-5"
+								/>
+							)}
+
+							<Popover className="relative">
+								<Popover.Button>
+									<img src={threeDotsIcon} alt="more options" />
+								</Popover.Button>
+
+								<Popover.Panel className="absolute z-50 bg-bl-13 w-[178px] py-1 px-4 rounded-lg">
+									<Button
+										className="flex jutify-between items-center my-2"
+										onClick={deleteTask.bind(this, task.id)}
+									>
+										<img src={binIcon} alt="bin" className="w-8 h-8 mr-1" />
+										<p className="text-sm ml-2">Delete task</p>
+									</Button>
+
+									{task.isCurrent ? (
+										<Button
+											className="flex jutify-between items-center my-2"
+											onClick={unsetCurrentTask}
+										>
+											<img
+												src={closeIcon}
+												alt="current"
+												className="w-8 h-4 mr-1"
+											/>
+											<p className="text-sm ml-2">Unset as current</p>
+										</Button>
+									) : (
+										<Button
+											className="flex jutify-between items-center my-2"
+											onClick={setCurrentTask.bind(this, task.id)}
+										>
+											<img
+												src={currentIcon}
+												alt="current"
+												className="w-8 h-[20px] mr-1"
+											/>
+											<p className="text-sm ml-2">Set as current</p>
+										</Button>
+									)}
+								</Popover.Panel>
+							</Popover>
+						</div>
+					))
+				)}
 			</div>
 
-			<div className="mt-4 text-center">
-				<Button className="min-w-[120px] py-1 px-4 text-base text-primary border border-primary rounded-full bg-transparent-b-10">
-					Add task
-				</Button>
-			</div>
+			{isAddingTask ? (
+				<div className="flex justify-center items-center mt-4">
+					<input
+						value={taskName}
+						autoFocus
+						placeholder="New task name (enter to save)"
+						className="py-1 px-4 w-full bg-transparent-w-05 rounded-lg"
+						onChange={(e) => setTaskName(e.target.value)}
+						onKeyDown={handleKeyDown}
+					/>
+					<Button className="mx-2" onClick={() => setIsAddingTask(false)}>
+						<img src={closeIcon} alt="close" />
+					</Button>
+				</div>
+			) : (
+				<div className="mt-4 text-center">
+					<Button
+						className="min-w-[120px] py-1 px-4 text-base text-primary border border-primary rounded-full bg-transparent-b-10"
+						onClick={() => setIsAddingTask(true)}
+					>
+						Add task
+					</Button>
+				</div>
+			)}
 		</>
 	)
 }

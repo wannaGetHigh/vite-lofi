@@ -8,7 +8,7 @@ function SettingModal() {
 	const { setModalType } = useContext(AppContext)
 
 	return (
-		<div className="absolute inset-0 flex justify-center items-center bg-transparent-b-70 z-50">
+		<div className="absolute inset-0 flex justify-center items-center bg-transparent-b-70 z-40">
 			<div className="relative flex flex-col w-[440px] py-4 px-8 bg-bl rounded-2xl select-none">
 				<Button
 					className="absolute top-4 right-4 hover:opacity-50 cursor-pointer"

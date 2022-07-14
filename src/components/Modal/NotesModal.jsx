@@ -1,7 +1,9 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Draggable from 'react-draggable'
+import { convert } from 'html-to-text'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import '../../customCKEditor.css'
 
 import Button from '../Button'
 import { AppContext } from '../../context/AppProvider'
@@ -14,12 +16,44 @@ import {
 
 function NotesModal() {
 	const { setModalType } = useContext(AppContext)
-	const [title, setTitle] = useState('')
-	const [content, setContent] = useState('')
+	const [currentNote, setCurrentNote] = useState({ title: '', content: '' })
+	const [renderEditor, setRenderEditor] = useState(false)
+	const [notesList, setNotesList] = useState([])
+
+	const saveNote = () => {
+		if (currentNote.id) {
+			console.log(currentNote)
+			setNotesList((prev) =>
+				prev.map((note) => (note.id === currentNote.id ? currentNote : note)),
+			)
+		} else if (currentNote.content || currentNote.title) {
+			setNotesList((prev) => [
+				...prev,
+				{
+					id: Math.random(),
+					title: currentNote.title,
+					content: currentNote.content,
+				},
+			])
+		}
+		resetNote()
+	}
+
+	const deleteNote = (id) => {
+		setNotesList((prev) => prev.filter((note) => note.id !== id))
+		resetNote()
+	}
+
+	const resetNote = () => {
+		setCurrentNote({ id: '', title: '', content: '' })
+	}
+
+	// Fix CKEditor instance null
+	useEffect(() => setRenderEditor(true), [])
 
 	return (
 		<Draggable handle=".handle">
-			<div className="relative w-[660px] bg-bl rounded-2xl select-none z-50">
+			<div className="relative w-[660px] bg-bl rounded-2xl select-none z-40">
 				<Button
 					className="absolute top-4 right-4 hover:opacity-50 cursor-pointer"
 					onClick={() => setModalType(null)}
@@ -39,50 +73,80 @@ function NotesModal() {
 							/>
 						</div>
 
-						<div className="flex justify-center items-center h-[400px] border border-white rounded-2xl">
-							No note
+						<div className="h-[400px] border border-transparent-w-20 rounded-2xl overflow-y-auto">
+							{/* <div className="w-full hover:opacity-70 p-2 cursor-pointer">
+								<h5 className="text-lg font-medium">Welcome</h5>
+								<time className="text-xs">13/07/2022</time>
+								<p className="text-sm truncate">to lofi.co</p>
+							</div>
+							<div className="w-full hover:opacity-70 p-2 cursor-pointer ">
+								<h5 className="text-lg font-medium">Welcome</h5>
+								<time className="text-xs">13/07/2022</time>
+								<p className="text-sm truncate">to lofi.co</p>
+							</div> */}
+							{notesList.length === 0 ? (
+								<div className="flex items-center justify-center h-full">
+									No notes
+								</div>
+							) : (
+								notesList.map((note) => (
+									<div
+										key={note.id}
+										className={`w-full hover:opacity-70 p-2 cursor-pointer border-t border-transparent-w-20 ${
+											note.id === currentNote.id ? 'bg-primary text-black' : ''
+										}`}
+										onClick={() => setCurrentNote(note)}
+									>
+										<h5 className="text-lg font-medium">{note.title}</h5>
+										<time className="text-xs">13/07/2022</time>
+										<p className="text-sm truncate">{convert(note.content)}</p>
+									</div>
+								))
+							)}
 						</div>
 					</div>
 
 					{/* Right side */}
 					<div className="w-2/3">
-						<div className="flex items-center mx-2">
-							<Button className="block">
+						<div className="flex items-center justify-start mx-2 w-full">
+							<Button className="shrink-0" onClick={resetNote}>
 								<img src={newNoteIcon} alt="add new note" className="w-6 h-6" />
 							</Button>
 
-							<Button className="block">
+							<Button
+								className="shrink-0"
+								onClick={deleteNote.bind(this, currentNote.id)}
+							>
 								<img src={binIcon} alt="bin" className="w-9 h-9" />
 							</Button>
 
 							<input
 								placeholder="Add title here..."
-								className="mr-4 bg-black text-3xl"
-								value={title}
-								onChange={(e) => setTitle(e.target.value)}
+								className="w-[300px] ml-2 mr-4 bg-black text-3xl"
+								value={currentNote.title}
+								onChange={(e) =>
+									setCurrentNote({ ...currentNote, title: e.target.value })
+								}
 							/>
 						</div>
 						<div className="mt-2 h-[400px]">
-							<CKEditor
-								editor={ClassicEditor}
-								data="<p>Hello from CKEditor 5!</p>"
-								onReady={(editor) => {
-									// You can store the "editor" and use when it is needed.
-									console.log('Editor is ready to use!', editor)
-								}}
-								onChange={(event, editor) => {
-									const data = editor.getData()
-									console.log({ event, editor, data })
-								}}
-								onBlur={(event, editor) => {
-									console.log('Blur.', editor)
-								}}
-								onFocus={(event, editor) => {
-									console.log('Focus.', editor)
-								}}
-							/>
+							{renderEditor && (
+								<CKEditor
+									editor={ClassicEditor}
+									data={currentNote?.content}
+									onBlur={(_, editor) => {
+										setCurrentNote({
+											...currentNote,
+											content: editor.getData(),
+										})
+									}}
+								/>
+							)}
 						</div>
-						<Button className="px-6 py-1 block ml-auto bg-primary rounded-full text-black font-semibold">
+						<Button
+							className="px-6 py-1 block ml-auto bg-primary rounded-full text-black font-semibold"
+							onClick={saveNote}
+						>
 							Save
 						</Button>
 					</div>

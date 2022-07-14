@@ -18,23 +18,21 @@ function Sidebar() {
 		{ src: moodIcon, alt: 'mood' },
 		{ src: templateIcon, alt: 'template' },
 		{ src: setIcon, alt: 'set' },
-		{ src: focusIcon, alt: 'focus' }
+		{ src: focusIcon, alt: 'focus' },
 	]
 
 	return (
 		<div
-			className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-10"
+			className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-50"
 			ref={modalRef}
 		>
 			{menuTab && (
-				<>
-					<div className="w-[345px] bg-bl rounded-3xl overflow-hidden z-20">
-						{menuTab === 'mood' && <Mood />}
-						{menuTab === 'template' && <Template />}
-						{menuTab === 'set' && <Set />}
-						{menuTab === 'focus' && <Focus setMenuTab={setMenuTab} />}
-					</div>
-				</>
+				<div className="w-[345px] bg-bl rounded-3xl overflow-hidden">
+					{menuTab === 'mood' && <Mood />}
+					{menuTab === 'template' && <Template />}
+					{menuTab === 'set' && <Set />}
+					{menuTab === 'focus' && <Focus setMenuTab={setMenuTab} />}
+				</div>
 			)}
 			<div className="flex flex-col justify-center h-[280px] w-[70px] bg-transparent-b-60 rounded-full overflow-hidden cursor-pointer mr-5">
 				{items.map((item) => (

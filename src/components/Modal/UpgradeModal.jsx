@@ -35,7 +35,7 @@ function UpgradeModal() {
 	const [yearly, setYearly] = useState(false)
 
 	return (
-		<div className="absolute inset-0 bg-transparent-b-23 z-50 select-none">
+		<div className="absolute inset-0 bg-transparent-b-23 z-40 select-none">
 			<div className="relative h-screen w-[85vw] m-auto flex flex-row bg-transparent-b-70 rounded-2xl overflow-hidden">
 				<Button
 					onClick={() => setModalType(null)}

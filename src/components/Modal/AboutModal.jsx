@@ -7,7 +7,7 @@ import {
 	closeIcon,
 	instagramIcon,
 	twitterIcon,
-	arrowLeftIcon
+	arrowLeftIcon,
 } from '../../assets/icons'
 
 function AboutModal() {
@@ -15,7 +15,7 @@ function AboutModal() {
 	const [about, setAbout] = useState('about')
 
 	return (
-		<div className="absolute inset-0 p-8 bg-transparent-b-70 z-50 select-none">
+		<div className="absolute inset-0 p-8 bg-transparent-b-70 z-40 select-none">
 			<Button
 				className="absolute right-4 top-4"
 				onClick={() => setModalType(null)}

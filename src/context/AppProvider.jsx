@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useRef } from 'react'
 
 import { JAZZY_LINKS } from '../constants'
 import { BACKGROUND_LINKS_LIST } from '../constants'
@@ -12,10 +12,10 @@ function AppProvider({ children }) {
 		return {
 			list: JAZZY_LINKS,
 			index: randomIndex,
-			link: JAZZY_LINKS[randomIndex]
+			link: JAZZY_LINKS[randomIndex],
 		}
 	})
-	const background = {
+	const [background, setBackground] = useState({
 		mood: 'chill',
 		set: 'chill',
 		scene: 'chill1',
@@ -27,17 +27,20 @@ function AppProvider({ children }) {
 				item.set === 'chill' &&
 				item.scene === 'chill1' &&
 				item.day === true &&
-				item.rainy === false
+				item.rainy === false,
 		).link,
-		link2: ''
-	}
+		link2: '',
+	})
+	const audioRef = useRef()
 
 	const value = {
+		audioRef,
 		currentSong,
 		setCurrentSong,
 		modalType,
 		setModalType,
-		background
+		background,
+		setBackground,
 	}
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>

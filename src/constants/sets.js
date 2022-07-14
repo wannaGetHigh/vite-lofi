@@ -29,7 +29,13 @@ import {
 	sceneVan1Img,
 	sceneVan2Img,
 	sceneSummer1Img,
-	sceneSummer2Img
+	sceneSummer2Img,
+	setHonolulu,
+	sceneHonolulu1Img,
+	sceneHonolulu2Img,
+	setAmIDreaming,
+	sceneAmIDreaming1Img,
+	sceneAmIDreaming2Img,
 } from '../assets/images'
 
 export const SETS = [
@@ -39,13 +45,27 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'chill1',
-				img: sceneChill1Img
+				img: sceneChill1Img,
 			},
 			{
 				scene: 'chill2',
-				img: sceneChill2Img
-			}
-		]
+				img: sceneChill2Img,
+			},
+		],
+	},
+	{
+		set: 'honolulu',
+		img: setHonolulu,
+		scenes: [
+			{
+				scene: 'balcony',
+				img: sceneHonolulu1Img,
+			},
+			{
+				scene: 'beach',
+				img: sceneHonolulu2Img,
+			},
+		],
 	},
 	{
 		set: 'spring',
@@ -53,13 +73,13 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'spring1',
-				img: sceneSpring1Img
+				img: sceneSpring1Img,
 			},
 			{
 				scene: 'spring2',
-				img: sceneSpring2Img
-			}
-		]
+				img: sceneSpring2Img,
+			},
+		],
 	},
 	{
 		set: 'northern',
@@ -67,13 +87,13 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'northern1',
-				img: sceneNorthern1Img
+				img: sceneNorthern1Img,
 			},
 			{
 				scene: 'northern2',
-				img: sceneNorthern2Img
-			}
-		]
+				img: sceneNorthern2Img,
+			},
+		],
 	},
 	{
 		set: 'book',
@@ -81,13 +101,27 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'book1',
-				img: sceneBook1Img
+				img: sceneBook1Img,
 			},
 			{
 				scene: 'book2',
-				img: sceneBook2Img
-			}
-		]
+				img: sceneBook2Img,
+			},
+		],
+	},
+	{
+		set: 'am-i-dreaming',
+		img: setAmIDreaming,
+		scenes: [
+			{
+				scene: 'outerspace',
+				img: sceneAmIDreaming1Img,
+			},
+			{
+				scene: 'underwater',
+				img: sceneAmIDreaming2Img,
+			},
+		],
 	},
 	{
 		set: 'desk',
@@ -95,17 +129,17 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'desk1',
-				img: sceneDesk1Img
+				img: sceneDesk1Img,
 			},
 			{
 				scene: 'desk2',
-				img: sceneDesk2Img
+				img: sceneDesk2Img,
 			},
 			{
 				scene: 'desk3',
-				img: sceneDesk3Img
-			}
-		]
+				img: sceneDesk3Img,
+			},
+		],
 	},
 	{
 		set: 'forest',
@@ -113,13 +147,13 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'forest1',
-				img: sceneForest1Img
+				img: sceneForest1Img,
 			},
 			{
 				scene: 'forest2',
-				img: sceneForest2Img
-			}
-		]
+				img: sceneForest2Img,
+			},
+		],
 	},
 	{
 		set: 'ocean',
@@ -127,13 +161,13 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'ocean1',
-				img: sceneOcean1Img
+				img: sceneOcean1Img,
 			},
 			{
 				scene: 'ocean2',
-				img: sceneOcean2Img
-			}
-		]
+				img: sceneOcean2Img,
+			},
+		],
 	},
 	{
 		set: 'cafe',
@@ -141,13 +175,13 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'cafe1',
-				img: sceneCafe1Img
+				img: sceneCafe1Img,
 			},
 			{
 				scene: 'cafe2',
-				img: sceneCafe2Img
-			}
-		]
+				img: sceneCafe2Img,
+			},
+		],
 	},
 	{
 		set: 'van',
@@ -155,13 +189,13 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'van1',
-				img: sceneVan1Img
+				img: sceneVan1Img,
 			},
 			{
 				scene: 'van2',
-				img: sceneVan2Img
-			}
-		]
+				img: sceneVan2Img,
+			},
+		],
 	},
 	{
 		set: 'summer',
@@ -169,110 +203,110 @@ export const SETS = [
 		scenes: [
 			{
 				scene: 'summer1',
-				img: sceneSummer1Img
+				img: sceneSummer1Img,
 			},
 			{
 				scene: 'summer2',
-				img: sceneSummer2Img
-			}
-		]
-	}
+				img: sceneSummer2Img,
+			},
+		],
+	},
 ]
 
 export const TEMPLATES = [
 	{
 		name: 'Chill 1',
 		template: 'chill1',
-		img: sceneChill1Img
+		img: sceneChill1Img,
 	},
 	{
 		name: 'Chill 2',
 		template: 'chill2',
-		img: sceneChill2Img
+		img: sceneChill2Img,
 	},
 	{
 		name: 'Spring 1',
 		template: 'spring1',
-		img: sceneSpring1Img
+		img: sceneSpring1Img,
 	},
 	{
 		name: 'Spring 2',
 		template: 'spring2',
-		img: sceneSpring2Img
+		img: sceneSpring2Img,
 	},
 	{
 		name: 'Northern 1',
 		template: 'northern1',
-		img: sceneNorthern1Img
+		img: sceneNorthern1Img,
 	},
 	{
 		name: 'Northern 2',
 		template: 'northern2',
-		img: sceneNorthern2Img
+		img: sceneNorthern2Img,
 	},
 	{
 		name: 'Desk 1',
 		template: 'desk1',
-		img: sceneDesk1Img
+		img: sceneDesk1Img,
 	},
 	{
 		name: 'Desk 2',
 		template: 'desk2',
-		img: sceneDesk2Img
+		img: sceneDesk2Img,
 	},
 	{
 		name: 'Desk 3',
 		template: 'desk3',
-		img: sceneDesk3Img
+		img: sceneDesk3Img,
 	},
 	{
 		name: 'Forest 1',
 		template: 'forest1',
-		img: sceneForest1Img
+		img: sceneForest1Img,
 	},
 	{
 		name: 'Forest 2',
 		template: 'forest2',
-		img: sceneForest2Img
+		img: sceneForest2Img,
 	},
 	{
 		name: 'Ocean 1',
 		template: 'ocean1',
-		img: sceneOcean1Img
+		img: sceneOcean1Img,
 	},
 	{
 		name: 'Ocean 2',
 		template: 'ocean2',
-		img: sceneOcean2Img
+		img: sceneOcean2Img,
 	},
 	{
 		name: 'Cafe 1',
 		template: 'cafe1',
-		img: sceneCafe1Img
+		img: sceneCafe1Img,
 	},
 	{
 		name: 'Cafe 2',
 		template: 'cafe2',
-		img: sceneCafe2Img
+		img: sceneCafe2Img,
 	},
 	{
 		name: 'Van 1',
 		template: 'van1',
-		img: sceneVan1Img
+		img: sceneVan1Img,
 	},
 	{
 		name: 'Van 2',
 		template: 'van2',
-		img: sceneVan2Img
+		img: sceneVan2Img,
 	},
 	{
 		name: 'Summer 1',
 		template: 'summer1',
-		img: sceneSummer1Img
+		img: sceneSummer1Img,
 	},
 	{
 		name: 'Summer 2',
 		template: 'summer2',
-		img: sceneSummer2Img
-	}
+		img: sceneSummer2Img,
+	},
 ]

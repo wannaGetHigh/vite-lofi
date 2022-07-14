@@ -8,7 +8,7 @@ function EndSession() {
 	const { setModalType } = useContext(AppContext)
 
 	return (
-		<div className="absolute inset-0 flex justify-center text-left bg-transparent-b-70 backdrop-blur-xl z-50">
+		<div className="absolute inset-0 flex justify-center text-left bg-transparent-b-70 backdrop-blur-xl z-40">
 			<div className="w-[400px] h-5/6 flex flex-col p-2 select-none">
 				<h1 className="mt-8 mb-4 text-5xl font-bold text-primary text-center">
 					Good Job!

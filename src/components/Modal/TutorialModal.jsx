@@ -138,7 +138,7 @@ function TutorialModal() {
 	const { setModalType } = useContext(AppContext)
 
 	return (
-		<div className="absolute inset-0 flex justify-center bg-transparent-b-70 backdrop-blur-xl items-center z-50">
+		<div className="absolute inset-0 flex justify-center bg-transparent-b-70 backdrop-blur-xl items-center z-40">
 			<Button
 				className="absolute top-8 right-8"
 				onClick={() => setModalType(null)}

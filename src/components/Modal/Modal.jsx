@@ -31,7 +31,7 @@ function Modal() {
 		'end-session': EndSession,
 	}
 
-	const Modal = modalType ? modals[modalType] : () => null
+	const Modal = modalType ? modals[modalType] : () => <></>
 
 	return (
 		<Transition show={!!modalType} as={Fragment}>
@@ -44,8 +44,15 @@ function Modal() {
 				leaveFrom="opacity-100"
 				leaveTo="opacity-0"
 			>
-				<div className="min-h-screen w-screen flex justify-center items-center text-white z-50">
+				<div className="min-h-screen w-screen flex justify-center items-center text-white z-40">
 					<Modal />
+					{/* {modalType === 'share' && <ShareModal />}
+					{modalType === 'upgrade' && <UpgradeModal />}
+					{modalType === 'settings' && <SettingModal />}
+					{modalType === 'contact' && <ContactModal />}
+					{modalType === 'tutorial' && <TutorialModal />}
+					{modalType === 'info' && <InfoModal />}
+					{modalType === 'notes' && <NotesModal />} */}
 				</div>
 			</Transition.Child>
 		</Transition>

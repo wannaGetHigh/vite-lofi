@@ -19,7 +19,7 @@ function HistoryModal() {
 
 	return (
 		<Draggable handle=".handle">
-			<div className="relative w-[440px] bg-bl rounded-3xl select-none z-50">
+			<div className="relative w-[440px] bg-bl rounded-3xl select-none z-40">
 				<Button
 					className="absolute top-4 right-4 hover:opacity-50 cursor-pointer"
 					onClick={() => setModalType(null)}
@@ -79,7 +79,7 @@ function Overview({ setIsDetail }) {
 						className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
 						onClick={() => setIsDetail(true)}
 					>
-						<h5 class="mb-3 text-2xl font-semibold">coding</h5>
+						<h5 className="mb-3 text-2xl font-semibold">coding</h5>
 						<div className="flex">
 							<p className="grow text-5xl font-bold text-primary">
 								16<span className="ml-2 text-lg">min</span>
@@ -92,7 +92,7 @@ function Overview({ setIsDetail }) {
 						className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
 						onClick={() => setIsDetail(true)}
 					>
-						<h5 class="mb-3 text-2xl font-semibold">coding</h5>
+						<h5 className="mb-3 text-2xl font-semibold">coding</h5>
 						<div className="flex">
 							<p className="grow text-5xl font-bold text-primary">
 								16<span className="ml-2 text-lg">min</span>
@@ -105,7 +105,7 @@ function Overview({ setIsDetail }) {
 						className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
 						onClick={() => setIsDetail(true)}
 					>
-						<h5 class="mb-3 text-2xl font-semibold">coding</h5>
+						<h5 className="mb-3 text-2xl font-semibold">coding</h5>
 						<div className="flex">
 							<p className="grow text-5xl font-bold text-primary">
 								16<span className="ml-2 text-lg">min</span>
@@ -139,7 +139,7 @@ function Detail({ setIsDetail }) {
 			<div className="flex mx-4 my-6">
 				<img src={clockIcon} alt="clock" className="self-start w-9 h-9" />
 				<div className="grow ml-10 flex flex-col">
-					<h3 class="mb-1 text-2xl font-semibold">coding</h3>
+					<h3 className="mb-1 text-2xl font-semibold">coding</h3>
 					<div className="flex justify-between items-center py-2 text-sm border-b border-transparent-w-05">
 						<p>Date:</p>
 						<time className="text-primary">12/07/2022</time>

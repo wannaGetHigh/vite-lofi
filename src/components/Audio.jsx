@@ -1,32 +1,31 @@
-import { useState, useContext, useRef, useEffect } from 'react'
+import { useState, useContext } from 'react'
 import Button from './Button'
 import {
 	prevIcon,
 	nextIcon,
 	playIcon,
 	pauseIcon,
-	clockIcon
+	clockIcon,
 } from '../assets/icons'
 import { AppContext } from '../context/AppProvider'
 import { nextSong, prevSong } from '../utils'
 
 function Audio() {
-	const { currentSong, setCurrentSong } = useContext(AppContext)
-	const audioRef = useRef()
+	const { currentSong, setCurrentSong, audioRef } = useContext(AppContext)
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	const handleNextSong = () => {
 		const newSong = nextSong(currentSong.list, currentSong.index)
 		setCurrentSong(newSong)
 		setIsPlaying(true)
-		audioRef.current.autoplay = true
+		audioRef.current.play()
 	}
 
 	const handlePrevSong = () => {
 		const newSong = prevSong(currentSong.list, currentSong.index)
 		setCurrentSong(newSong)
 		setIsPlaying(true)
-		audioRef.current.autoplay = true
+		audioRef.current.play()
 	}
 
 	const handlePlay = () => {
