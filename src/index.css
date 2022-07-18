@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*:focus {
+	outline: none !important;
+}
+
 ::-webkit-scrollbar {
 	display: none !important;
 }

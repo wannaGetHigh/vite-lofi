@@ -3,9 +3,36 @@ import { useContext } from 'react'
 import { checkIcon, uncheckIcon } from '../../assets/icons'
 import Button from '../Button'
 import { AppContext } from '../../context/AppProvider'
+import { convertTime } from '../../utils'
 
 function EndSession() {
-	const { setModalType } = useContext(AppContext)
+	const {
+		setModalType,
+		currentSession,
+		setCurrentSession,
+		setIsBreak,
+		setSessionList,
+	} = useContext(AppContext)
+
+	const refreshSession = () => {
+		setCurrentSession({
+			name: '',
+			time: 0,
+			pomodoroLength: 0,
+			breakLength: 0,
+			date: '',
+			pomodoroCount: 0,
+			breakCount: 0,
+			taskList: [],
+			completedTask: [],
+			uncompletedTask: [],
+		})
+		setSessionList((prev) => [...prev, currentSession])
+		setIsBreak(false)
+		setModalType(null)
+	}
+
+	console.log('end', currentSession)
 
 	return (
 		<div className="absolute inset-0 flex justify-center text-left bg-transparent-b-70 backdrop-blur-xl z-40">
@@ -15,42 +42,66 @@ function EndSession() {
 				</h1>
 
 				<div>
-					<h3 className="text-3xl font-bold">coding</h3>
+					<h3 className="text-3xl font-bold">{currentSession.name}</h3>
 					<div className="flex justify-between text-sm my-2">
 						<p>Length:</p>
-						<time className="text-primary">00:00</time>
+						<time className="text-primary">
+							{convertTime(currentSession.time)}
+						</time>
 					</div>
 					<div className="flex justify-between text-sm my-2">
 						<p>Completed Pomodoros:</p>
-						<time className="text-primary">0</time>
+						<time className="text-primary">{currentSession.pomodoroCount}</time>
 					</div>
 					<div className="flex justify-between text-sm my-2">
 						<p>Breaks taken:</p>
-						<time className="text-primary">0</time>
+						<time className="text-primary">{currentSession.breakCount}</time>
 					</div>
 				</div>
 
 				<div className="flex-1 over-flow-auto">
-					<div className="my-4">
+					<div className="mt-4 mb-2">
 						<div className="flex items-center mb-4">
-							<h5 className="text-lg font-semibold mr-4">Completed</h5>
+							<h5 className="text-lg font-semibold mr-4">Completed Task</h5>
 							<img src={checkIcon} alt="completed icon" />
 						</div>
-						<p className="text-sm opacity-50">None</p>
+						{currentSession.completedTask.length === 0 ? (
+							<p className="text-sm opacity-50">None</p>
+						) : (
+							currentSession.completedTask.map((task) => (
+								<div
+									key={task.id}
+									className="py-1 px-4 my-1 text-center text-medium bg-transparent-b-60 rounded-lg"
+								>
+									{task.name}
+								</div>
+							))
+						)}
 					</div>
 
-					<div className="my-4">
+					<div className="mt-4 mb-2">
 						<div className="flex items-center mb-4">
-							<h5 className="text-lg font-semibold mr-4">Uncompleted</h5>
+							<h5 className="text-lg font-semibold mr-4">Uncompleted Task</h5>
 							<img src={uncheckIcon} alt="completed icon" />
 						</div>
-						<p className="text-sm opacity-50">None</p>
+						{currentSession.uncompletedTask.length === 0 ? (
+							<p className="text-sm opacity-50">None</p>
+						) : (
+							currentSession.uncompletedTask.map((task) => (
+								<div
+									key={task.id}
+									className="py-1 px-4 my-1 text-center text-medium bg-transparent-b-60 rounded-lg"
+								>
+									{task.name}
+								</div>
+							))
+						)}
 					</div>
 				</div>
 
 				<Button
 					className="w-full rounded-full px-4 py-1 my-2 text-black text-base font-semibold bg-primary"
-					onClick={() => setModalType(null)}
+					onClick={refreshSession}
 				>
 					Done
 				</Button>

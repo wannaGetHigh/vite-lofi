@@ -12,10 +12,11 @@ import {
 	checkIcon,
 	uncheckIcon,
 } from '../../assets/icons'
+import { convertTime, totalHour } from '../../utils'
 
 function HistoryModal() {
 	const { setModalType } = useContext(AppContext)
-	const [isDetail, setIsDetail] = useState(false)
+	const [sessionDetail, setSessionDetail] = useState()
 
 	return (
 		<Draggable handle=".handle">
@@ -28,10 +29,13 @@ function HistoryModal() {
 				</Button>
 
 				<div className="p-6">
-					{!isDetail ? (
-						<Overview setIsDetail={setIsDetail} />
+					{!sessionDetail ? (
+						<Overview setSessionDetail={setSessionDetail} />
 					) : (
-						<Detail setIsDetail={setIsDetail} />
+						<Detail
+							setSessionDetail={setSessionDetail}
+							sessionDetail={sessionDetail}
+						/>
 					)}
 				</div>
 			</div>
@@ -39,7 +43,9 @@ function HistoryModal() {
 	)
 }
 
-function Overview({ setIsDetail }) {
+function Overview({ setSessionDetail }) {
+	const { sessionList } = useContext(AppContext)
+
 	return (
 		<>
 			<div className="relative w-11/12 handle mb-6 cursor-move">
@@ -52,17 +58,23 @@ function Overview({ setIsDetail }) {
 			</div>
 
 			<div className="flex py-3 px-6 mb-8 bg-transparent-w-05 rounded-xl">
-				<img src={activityIcon} alt="activities" className="self-start mt-2" />
+				<div className="my-4">
+					<img
+						src={activityIcon}
+						alt="activities"
+						className="self-start h-8 w-8 mt-2"
+					/>
+				</div>
 				<div className="flex flex-col w-full mx-4">
 					<h3 className="mx-4 my-2 text-xl font-semibold">Activity</h3>
 					<div className="flex justify-between w-full my-2 mx-4">
 						<div>
 							<p className="text-sm opacity-50">Total Sessions</p>
-							<p className="text-xl font-bold">20</p>
+							<p className="text-xl font-bold">{sessionList.length}</p>
 						</div>
 						<div>
 							<p className="text-sm opacity-50">Total Hour</p>
-							<p className="text-xl font-bold">22</p>
+							<p className="text-xl font-bold">{totalHour(sessionList)}</p>
 						</div>
 						<div>
 							<p className="text-sm opacity-50">Day Streak</p>
@@ -75,57 +87,42 @@ function Overview({ setIsDetail }) {
 			<div>
 				<h3 className="my-2 text-xl font-semibold">Sessions</h3>
 				<div className="h-[300px] max-h-[300px] overflow-y-auto">
-					<Button
-						className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
-						onClick={() => setIsDetail(true)}
-					>
-						<h5 className="mb-3 text-2xl font-semibold">coding</h5>
-						<div className="flex">
-							<p className="grow text-5xl font-bold text-primary">
-								16<span className="ml-2 text-lg">min</span>
-							</p>
-							<time className="self-end opacity-50 text-sm">12/07/2022</time>
-						</div>
-					</Button>
-
-					<Button
-						className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
-						onClick={() => setIsDetail(true)}
-					>
-						<h5 className="mb-3 text-2xl font-semibold">coding</h5>
-						<div className="flex">
-							<p className="grow text-5xl font-bold text-primary">
-								16<span className="ml-2 text-lg">min</span>
-							</p>
-							<time className="self-end opacity-50 text-sm">12/07/2022</time>
-						</div>
-					</Button>
-
-					<Button
-						className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
-						onClick={() => setIsDetail(true)}
-					>
-						<h5 className="mb-3 text-2xl font-semibold">coding</h5>
-						<div className="flex">
-							<p className="grow text-5xl font-bold text-primary">
-								16<span className="ml-2 text-lg">min</span>
-							</p>
-							<time className="self-end opacity-50 text-sm">12/07/2022</time>
-						</div>
-					</Button>
+					{sessionList.length === 0 ? (
+						<p className="text-center">No activity yet</p>
+					) : (
+						sessionList.map((session, index) => (
+							<Button
+								key={index}
+								className="w-full text-left mt-5 p-5 bg-transparent-w-05 rounded-xl"
+								onClick={() => setSessionDetail(session)}
+							>
+								<h5 className="mb-3 text-2xl font-semibold">{session.name}</h5>
+								<div className="flex">
+									<p className="grow text-5xl font-bold text-primary">
+										{Math.round(session.time / 60)}
+										<span className="ml-2 text-lg">min</span>
+									</p>
+									<time className="self-end opacity-50 text-sm">
+										{session.date}
+									</time>
+								</div>
+							</Button>
+						))
+					)}
 				</div>
 			</div>
 		</>
 	)
 }
 
-function Detail({ setIsDetail }) {
+function Detail({ setSessionDetail, sessionDetail }) {
+	console.log(sessionDetail)
 	return (
 		<>
 			<div className="handle cursor-move -mt-6 pt-6">
 				<Button
 					className="flex justify-center items-center"
-					onClick={() => setIsDetail(false)}
+					onClick={() => setSessionDetail(null)}
 				>
 					<img
 						src={arrowLeftIcon}
@@ -139,14 +136,16 @@ function Detail({ setIsDetail }) {
 			<div className="flex mx-4 my-6">
 				<img src={clockIcon} alt="clock" className="self-start w-9 h-9" />
 				<div className="grow ml-10 flex flex-col">
-					<h3 className="mb-1 text-2xl font-semibold">coding</h3>
+					<h3 className="mb-1 text-2xl font-semibold">{sessionDetail.name}</h3>
 					<div className="flex justify-between items-center py-2 text-sm border-b border-transparent-w-05">
 						<p>Date:</p>
-						<time className="text-primary">12/07/2022</time>
+						<time className="text-primary">{sessionDetail.date}</time>
 					</div>
 					<div className="flex justify-between items-center py-2 text-sm">
 						<p>Length:</p>
-						<time className="text-primary">16:20</time>
+						<time className="text-primary">
+							{convertTime(sessionDetail.time)}
+						</time>
 					</div>
 				</div>
 			</div>
@@ -157,7 +156,18 @@ function Detail({ setIsDetail }) {
 						<h5 className="text-lg font-semibold mr-4">Completed Tasks</h5>
 						<img src={checkIcon} alt="completed icon" />
 					</div>
-					<p className="text-sm opacity-50">None</p>
+					{sessionDetail.completedTask.length === 0 ? (
+						<p className="text-sm opacity-50">None</p>
+					) : (
+						sessionDetail.completedTask.map((task) => (
+							<div
+								key={task.id}
+								className="py-1 px-4 my-1 text-center text-medium bg-transparent-w-05 rounded-lg"
+							>
+								{task.name}
+							</div>
+						))
+					)}
 				</div>
 
 				<div className="my-4">
@@ -165,7 +175,18 @@ function Detail({ setIsDetail }) {
 						<h5 className="text-lg font-semibold mr-4">Uncompleted Tasks</h5>
 						<img src={uncheckIcon} alt="completed icon" />
 					</div>
-					<p className="text-sm opacity-50">None</p>
+					{sessionDetail.uncompletedTask.length === 0 ? (
+						<p className="text-sm opacity-50">None</p>
+					) : (
+						sessionDetail.uncompletedTask.map((task) => (
+							<div
+								key={task.id}
+								className="py-1 px-4 my-1 text-center text-medium bg-transparent-w-05 rounded-lg"
+							>
+								{task.name}
+							</div>
+						))
+					)}
 				</div>
 			</div>
 		</>

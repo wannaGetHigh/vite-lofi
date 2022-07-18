@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react'
 import ReactSwitch from 'react-switch'
-import Slider from 'react-slick'
 
 import Button from '../Button'
 import { BASIC_PACKAGE, PREMIUM_PACKAGE } from '../../constants'
@@ -9,24 +8,11 @@ import { closeIcon, checkIcon, uncheckIcon } from '../../assets/icons'
 import { mosaicImg } from '../../assets/images'
 
 function Carousel() {
-	const settings = {
-		arrows: false,
-		autoplay: true,
-		infinite: true,
-		dots: false,
-		swipe: true,
-		speed: 100000,
-		autoplaySpeed: 1000,
-		cssEase: 'linear',
-		slidesToShow: 1,
-		slidesToScroll: 1,
-	}
-
 	return (
-		<Slider {...settings}>
+		<div className="flex w-[2600px] h-full animate-autoSlider">
 			<img src={mosaicImg} alt="mosaic" />
 			<img src={mosaicImg} alt="mosaic" />
-		</Slider>
+		</div>
 	)
 }
 
@@ -44,8 +30,8 @@ function UpgradeModal() {
 					<img src={closeIcon} alt="close modal" />
 				</Button>
 				{/* Left side */}
-				<div className="flex-leftside p-6 bg-bl">
-					<h3 className="text-3xl font-bold">Get more done with premium</h3>
+				<div className="flex-leftside p-4 bg-bl">
+					<h3 className="text-32 font-bold m-4">Get more done with premium</h3>
 					<div className="flex flex-row justify-center items-center my-4">
 						<p
 							className={`font-bold text-sm mx-8 ${yearly ? 'opacity-40' : ''}`}
@@ -80,10 +66,10 @@ function UpgradeModal() {
 						</div>
 					</div>
 
-					<div className="flex flex-row justify-center">
-						<div className="flex flex-col m-2 p-4 bg-transparent-w-05 rounded-2xl">
-							<h3 className="text-3xl font-bold text-center">Basic</h3>
-							<p className="text-primary text-4xl font-semibold m-4 text-center">
+					<div className="flex flex-row justify-between">
+						<div className="flex flex-col grow m-2 p-4 bg-transparent-w-05 rounded-2xl">
+							<h3 className="text-32 font-bold text-center">Basic</h3>
+							<p className="text-primary text-[40px] font-semibold m-4 text-center">
 								$0
 							</p>
 							<p className="min-h-[32px]"></p>
@@ -117,9 +103,9 @@ function UpgradeModal() {
 							))}
 						</div>
 
-						<div className="flex flex-col m-2 p-4 border-2 border-primary rounded-2xl bg-transparent-w-05">
-							<h3 className="text-3xl font-bold text-center">Premium</h3>
-							<p className="text-primary text-center text-4xl font-semibold m-4">
+						<div className="flex flex-col grow m-2 p-4 border-2 border-primary rounded-2xl bg-transparent-w-05">
+							<h3 className="text-32 font-bold text-center">Premium</h3>
+							<p className="text-primary text-center text-[40px] font-semibold m-4">
 								{yearly ? '3,99$ ' : '2,99$ '}
 								<span className="text-sm text-white font-normal ml-2">
 									/ mo
@@ -161,21 +147,21 @@ function UpgradeModal() {
 
 				{/* Right side */}
 				<div className="flex-rightside font-bold overflow-hidden rounded-r-2xl">
-					<h3 className="m-8 text-3xl">
+					<h3 className="m-8 text-32">
 						Join the <span className="text-primary">lofi.co</span> family
 					</h3>
-					<div className="m-2 p-4 bg bg-transparent-b-80 rounded-2xl text-center">
-						<h3 className="my-2 text-primary text-3xl">+100.000</h3>
-						<p className="my-2 font-semibold text-sm">
+					<div className="p-4 bg bg-transparent-b-80 rounded-2xl text-center">
+						<h3 className="my-4 text-primary text-32">+150.000</h3>
+						<p className="my-4 font-semibold text-sm">
 							Users chilling every month
 						</p>
 					</div>
-					<h3 className="my-4 mx-8 text-3xl">Don't believe in numbers?</h3>
+					<h3 className="my-4 mx-8 text-32">Don't believe in numbers?</h3>
 					<h6 className="my-4 mx-8 text-md">
 						Read what users write on socials about us.
 					</h6>
 
-					<div className="w-[2600px] h-[400px] cursor-grab">
+					<div className="relative h-[400px] w-full cursor-grab">
 						<Carousel />
 					</div>
 				</div>

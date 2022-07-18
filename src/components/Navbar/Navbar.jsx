@@ -44,7 +44,7 @@ function Navbar() {
 	}
 
 	return (
-		<div className="fixed top-0 z-20 w-screen flex flex-row justify-between items-center px-12">
+		<div className="fixed top-0 z-40 w-screen flex flex-row justify-between items-center px-12 animate-fadeIn1s">
 			<img src={logoImg} alt="logo" className="h-[100px]" />
 
 			<div className="flex flex-row items-center gap-x-4">
@@ -95,16 +95,22 @@ function Navbar() {
 				)}
 
 				{!fullScreen && (
-					<div
-						className="flex items-center gap-x-2 bg-gradient-269deg px-4 py-1 rounded-lg cursor-pointer"
-						onClick={() => setModalType('upgrade')}
-					>
-						<h3 className="text-3xl">🚀</h3>
-						<p className="font-bold text-sm">
-							Access +20 sences
-							<br />& more with premium
-						</p>
-					</div>
+					<>
+						<div
+							className="flex items-center gap-x-2 bg-gradient-269deg px-4 py-1 rounded-lg cursor-pointer"
+							onClick={() => setModalType('upgrade')}
+						>
+							<h3 className="text-3xl">🚀</h3>
+							<p className="font-bold text-sm">
+								Access +20 sences
+								<br />& more with premium
+							</p>
+						</div>
+
+						<Button className="py-[5px] px-4 bg-transparent-w-25 rounded-lg text-sm font-medium leading-[22px]">
+							Sign up
+						</Button>
+					</>
 				)}
 
 				<Button onClick={() => setModalType('share')}>

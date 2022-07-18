@@ -6,13 +6,15 @@ import Button from '../Button'
 import { closeIcon } from '../../assets/icons'
 
 function SessionModal() {
-	const { setModalType } = useContext(AppContext)
+	const { setModalType, setCurrentSession, currentSession } =
+		useContext(AppContext)
 	const [sessionName, setSessionName] = useState('')
 
-	const startSession = () => {
+	const handleStartSession = () => {
 		if (sessionName) {
 			setSessionName('')
-			setModalType(null)
+			setCurrentSession({ ...currentSession, name: sessionName })
+			setModalType('tasks')
 		}
 	}
 
@@ -27,28 +29,29 @@ function SessionModal() {
 				</Button>
 
 				<div className="p-6">
-					<h3 className="text-3xl font-bold select-none text-center">
+					<h3 className="text-3xl font-bold select-none text-center mb-4">
 						Session
 					</h3>
+
 					<label htmlFor="session" className="text-sm opacity-50">
 						Insert a session name
 					</label>
 					<br />
 					<input
+						autoFocus
 						type="text"
 						id="session"
 						value={sessionName}
 						onChange={(e) => setSessionName(e.target.value)}
 						onKeyDown={(e) => {
-							if (e.key === 'Enter') startSession()
+							if (e.key === 'Enter') handleStartSession()
 						}}
 						placeholder="Session name"
 						className="w-full my-2 px-4 py-2 bg-transparent-w-05 rounded-2xl"
 					/>
-
 					<Button
-						className="min-w-[120px] flex justify-center items-center m-auto mt-7 p-2 bg-primary font-semibold text-sm text-black rounded-full hover:opacity-50"
-						onClick={startSession}
+						className="min-w-[120px] flex justify-center items-center m-auto mt-7 p-2 bg-primary font-semibold text-sm text-black rounded-full"
+						onClick={handleStartSession}
 					>
 						Start session
 					</Button>

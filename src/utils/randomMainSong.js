@@ -1,3 +1,8 @@
+export const randomSong = (list) => {
+	let randomIndex = Math.floor(Math.random() * list.length)
+	return { list, index: randomIndex, link: list[randomIndex] }
+}
+
 export const nextSong = (list, currentIndex) => {
 	let newIndex
 	if (currentIndex < 0 || currentIndex >= list.length - 1) {

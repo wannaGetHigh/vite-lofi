@@ -1,29 +1,55 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
+import Tippy from '@tippyjs/react'
+import TippyHeadless from '@tippyjs/react/headless'
+import 'tippy.js/dist/tippy.css'
 
-import { moodIcon, templateIcon, setIcon, focusIcon } from '../../assets/icons'
+import {
+	MoodIcon,
+	TemplateIcon,
+	SetIcon,
+	FocusIcon,
+	TimerIcon,
+	MenuHistoryIcon,
+	MenuNoteIcon,
+	crownIcon,
+} from '../../assets/icons'
 import Mood from './Mood'
 import Template from './Template'
 import Set from './Set'
-import Focus from './Focus'
 import useClickOutside from '../../hook/useClickOutside'
+import Button from '../Button'
+import { AppContext } from '../../context/AppProvider'
 
 function Sidebar() {
+	const { setModalType, modalType } = useContext(AppContext)
 	const [menuTab, setMenuTab] = useState()
+	const [focusMenu, setFocusMenu] = useState(false)
 	const modalRef = useRef(null)
 
 	// Close Menu tab when click outside modal
 	useClickOutside(modalRef, () => setMenuTab(null))
 
-	const items = [
-		{ src: moodIcon, alt: 'mood' },
-		{ src: templateIcon, alt: 'template' },
-		{ src: setIcon, alt: 'set' },
-		{ src: focusIcon, alt: 'focus' },
+	const menuItems = [
+		{ Icon: MoodIcon, alt: 'mood', tooltip: 'Mixer' },
+		{ Icon: TemplateIcon, alt: 'template', tooltip: 'Templates' },
+		{ Icon: SetIcon, alt: 'set', tooltip: 'Scenes' },
+		{ Icon: FocusIcon, alt: 'focus', tooltip: 'Tools' },
+	]
+
+	const focusItems = [
+		{ Icon: TimerIcon, alt: 'timer', tooltip: 'Timer', modalName: 'tasks' },
+		{ Icon: MenuNoteIcon, alt: 'notes', tooltip: 'Notes', modalName: 'notes' },
+		{
+			Icon: MenuHistoryIcon,
+			alt: 'insight',
+			tooltip: 'Insights',
+			modalName: 'history',
+		},
 	]
 
 	return (
 		<div
-			className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-50"
+			className="fixed flex items-center right-0 top-1/2 -translate-y-1/2 z-40 animate-fadeIn1s"
 			ref={modalRef}
 		>
 			{menuTab && (
@@ -31,31 +57,61 @@ function Sidebar() {
 					{menuTab === 'mood' && <Mood />}
 					{menuTab === 'template' && <Template />}
 					{menuTab === 'set' && <Set />}
-					{menuTab === 'focus' && <Focus setMenuTab={setMenuTab} />}
 				</div>
 			)}
-			<div className="flex flex-col justify-center h-[280px] w-[70px] bg-transparent-b-60 rounded-full overflow-hidden cursor-pointer mr-5">
-				{items.map((item) => (
-					<div
-						key={item.alt}
-						className={`w-[70px] h-[70px] z-20 ${
-							menuTab === item.alt ? 'bg-bl' : 'opacity-20 brightness-200'
-						}`}
-						onClick={() =>
-							menuTab === item.alt ? setMenuTab(null) : setMenuTab(item.alt)
-						}
+			<div className="flex flex-col justify-center py-4 mr-5 bg-bl rounded-xl">
+				{menuItems.map(({ Icon, alt, tooltip }) => (
+					<Button
+						key={alt}
+						className="flex justify-center items-center w-[60px] h-[55px] hover:opacity-100"
+						onClick={() => {
+							if (alt === 'focus') {
+								setFocusMenu(!focusMenu)
+							} else {
+								setFocusMenu(false)
+							}
+							menuTab === alt ? setMenuTab(null) : setMenuTab(alt)
+						}}
 					>
-						<img
-							src={item.src}
-							alt={item.alt}
-							className={item.alt === 'focus' ? 'scale-[0.4]' : 'scale-150'}
-						/>
-						{/* Separate line */}
-						{item.alt !== 'focus' && (
-							<div className="w-[50px] m-auto border-solid border-b-2 border-[#fff3]"></div>
-						)}
-					</div>
+						<Tippy content={tooltip} placement="left" arrow={false}>
+							<Icon
+								className={alt === menuTab ? 'fill-primary' : 'fill-gr-36'}
+							/>
+						</Tippy>
+					</Button>
 				))}
+				{focusMenu && (
+					<div className="flex flex-col justify-center animate-slideDown">
+						<div className="h-[1px] w-[25px] bg-gr-36 m-auto"></div>
+						{focusItems.map(({ Icon, alt, tooltip, modalName }) => (
+							<Button
+								key={alt}
+								className="flex justify-center items-center w-[60px] h-[55px] hover:opacity-100"
+								onClick={() => setModalType(modalName)}
+							>
+								<TippyHeadless
+									render={(attrs) => (
+										<div
+											{...attrs}
+											className="flex items-center gap-[6px] text-sm font-normal bg-gr-36 rounded-lg p-2"
+										>
+											{tooltip}
+											<img src={crownIcon} alt="crown" width="16" height="16" />
+										</div>
+									)}
+									placement="left"
+									arrow={false}
+								>
+									<Icon
+										className={
+											modalType === modalName ? 'fill-primary' : 'fill-gr-36'
+										}
+									/>
+								</TippyHeadless>
+							</Button>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	)

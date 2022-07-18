@@ -6,6 +6,8 @@ module.exports = {
 				fadeIn: 'fadeIn 0.3s ease',
 				fadeIn1s: 'fadeIn 1s ease',
 				fadeOut: 'fadeOut 0.3s ease',
+				autoSlider: 'autoSlider infinite 100s linear',
+				slideDown: 'slideDown 0.5s ease-out',
 			},
 			colors: {
 				primary: '#f3a952',
@@ -14,6 +16,7 @@ module.exports = {
 				'bl-20': '#141414',
 				'bl-13': '#0D0D0D',
 				gr: '#141414',
+				'gr-36': '#363636',
 				'gr-input': '#5b5a67',
 				br: '#352828',
 				'light-green': '#0f0a',
@@ -27,6 +30,7 @@ module.exports = {
 				'transparent-b-23': 'rgba(0, 0, 0, .23)',
 				'transparent-b-10': 'rgb(243 169 82 / 10%)',
 				'transparent-w-05': 'rgba(255, 255, 255, 0.05)',
+				'transparent-w-25': 'rgba(255, 255, 255, 0.25)',
 			}),
 			backgroundImage: {
 				'gradient-269deg':
@@ -48,6 +52,17 @@ module.exports = {
 					'0%': { opacity: 1 },
 					'100%': { opacity: 0 },
 				},
+				autoSlider: {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-100%)' },
+				},
+				slideDown: {
+					'0%': { transform: 'translateY(-100%)' },
+					'100%': { transform: 'translateY(0%)' },
+				},
+			},
+			fontSize: {
+				32: ['32px', { lineHeight: '32px' }],
 			},
 		},
 	},

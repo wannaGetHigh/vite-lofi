@@ -1,3 +1,7 @@
 export * from './randomMainSong'
 export { default as changeBackground } from './changeBackground'
 export { default as canSwitchBackground } from './canSwitchBackground'
+export { default as convertTime } from './convertTime'
+export { default as totalHour } from './totalHour'
+export { default as getDate } from './getDate'
+export { default as dayStreak } from './dayStreak'

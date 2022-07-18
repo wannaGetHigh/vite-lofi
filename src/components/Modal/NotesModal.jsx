@@ -13,6 +13,7 @@ import {
 	newNoteIcon,
 	binIcon,
 } from '../../assets/icons'
+import { getDate } from '../../utils'
 
 function NotesModal() {
 	const { setModalType } = useContext(AppContext)
@@ -33,6 +34,7 @@ function NotesModal() {
 					id: Math.random(),
 					title: currentNote.title,
 					content: currentNote.content,
+					date: getDate(new Date()),
 				},
 			])
 		}
@@ -98,7 +100,7 @@ function NotesModal() {
 										onClick={() => setCurrentNote(note)}
 									>
 										<h5 className="text-lg font-medium">{note.title}</h5>
-										<time className="text-xs">13/07/2022</time>
+										<time className="text-xs">{note.date}</time>
 										<p className="text-sm truncate">{convert(note.content)}</p>
 									</div>
 								))

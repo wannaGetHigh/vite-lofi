@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Draggable from 'react-draggable'
 import ReactSwitch from 'react-switch'
 import { Listbox, Popover } from '@headlessui/react'
@@ -21,10 +21,16 @@ import {
 	currentIcon,
 	binIcon,
 } from '../../assets/icons'
+import { convertTime, getDate } from '../../utils'
 
 function TaskModal() {
-	const { setModalType } = useContext(AppContext)
+	const { setModalType, currentSession } = useContext(AppContext)
 	const [timerMode, setTimerMode] = useState(false)
+
+	if (!currentSession.name) {
+		setModalType('session')
+		return null
+	}
 
 	return (
 		<Draggable handle=".handle">
@@ -40,7 +46,7 @@ function TaskModal() {
 					{timerMode ? (
 						<Timer setTimerMode={setTimerMode} />
 					) : (
-						<Task setTimerMode={setTimerMode} setModalType={setModalType} />
+						<Task setTimerMode={setTimerMode} />
 					)}
 				</div>
 			</div>
@@ -48,11 +54,29 @@ function TaskModal() {
 	)
 }
 
-function Task({ setTimerMode, setModalType }) {
-	const [isPomodoroTime, setIsPomodoroTime] = useState(true)
-	const [isBreakTime, setIsBreakTime] = useState(false)
+function Task({ setTimerMode }) {
+	const {
+		currentSession,
+		setCurrentSession,
+		setModalType,
+		breakTimeCd,
+		pomodoroTimeCd,
+		pomodoroTime,
+		breakTime,
+		isBreak,
+		setIsBreak,
+		isBreakTimePlaying,
+		setIsBreakTimePlaying,
+		isPomodoroTimePlaying,
+		setIsPomodoroTimePlaying,
+		setPomodoroTimeCd,
+		pomodoroTimeout,
+		setBreakTimeCd,
+		breakTimeout,
+		alarmRef,
+	} = useContext(AppContext)
 	const [isAddingTask, setIsAddingTask] = useState(false)
-	const [taskList, setTaskList] = useState([])
+	const [taskList, setTaskList] = useState(currentSession.taskList)
 	const [taskName, setTaskName] = useState('')
 
 	// Add new task
@@ -100,6 +124,67 @@ function Task({ setTimerMode, setModalType }) {
 		setTaskList((prev) => prev.map((task) => ({ ...task, isCurrent: false })))
 	}
 
+	const handleStartSession = () => {
+		isBreak ? setIsBreakTimePlaying(true) : setIsPomodoroTimePlaying(true)
+		alarmRef.current.load()
+	}
+
+	const handleStopSession = () => {
+		if (isBreak) {
+			clearTimeout(breakTimeout)
+			setIsBreakTimePlaying(false)
+		} else {
+			clearTimeout(pomodoroTimeout)
+			setIsPomodoroTimePlaying(false)
+		}
+	}
+
+	const handleSkipSession = () => {
+		setIsBreak(!isBreak)
+		handleStopSession()
+		if (!isBreak) {
+			setPomodoroTimeCd(pomodoroTime)
+			setCurrentSession({
+				...currentSession,
+				pomodoroCount: currentSession.pomodoroCount + 1,
+				pomodoroLength:
+					currentSession.pomodoroLength + (pomodoroTime - pomodoroTimeCd),
+			})
+		} else {
+			setBreakTimeCd(breakTime)
+			setCurrentSession({
+				...currentSession,
+				breakCount: currentSession.breakCount + 1,
+				breakLength: currentSession.breakLength + (breakTime - breakTimeCd),
+			})
+		}
+	}
+
+	const handleEndSession = () => {
+		const completedTask = taskList.filter((task) => task.completed)
+
+		const uncompletedTask = taskList.filter((task) => !task.completed)
+
+		const time = currentSession.pomodoroLength + currentSession.breakLength
+
+		const date = getDate(new Date())
+
+		setCurrentSession({
+			...currentSession,
+			completedTask,
+			uncompletedTask,
+			time,
+			date,
+		})
+
+		setModalType('end-session')
+	}
+
+	// Update current session tasklist when task list change
+	useEffect(() => {
+		setCurrentSession({ ...currentSession, taskList })
+	}, [taskList])
+
 	return (
 		<>
 			<div className="relative w-5/6 handle cursor-move">
@@ -114,52 +199,78 @@ function Task({ setTimerMode, setModalType }) {
 			<div className="flex justify-between my-5 p-2 bg-transparent-w-05 rounded-full">
 				<Button
 					className={`flex-1 py-1.5 px-6 text-sm font-semibold text-center rounded-full ${
-						isPomodoroTime ? 'bg-primary text-black' : 'opacity-50'
+						!isBreak ? 'bg-primary text-black' : 'opacity-50'
 					} hover:opacity-100`}
-					onClick={() => {
-						setIsPomodoroTime(true)
-						setIsBreakTime(false)
-					}}
+					onClick={() => setIsBreak(false)}
 				>
 					Pomodoro
 				</Button>
 				<Button
 					className={`flex-1 py-1.5 px-6  text-sm font-semibold text-center rounded-full ${
-						isBreakTime ? 'bg-primary text-black' : 'opacity-50'
+						isBreak ? 'bg-primary text-black' : 'opacity-50'
 					} hover:opacity-100`}
-					onClick={() => {
-						setIsPomodoroTime(false)
-						setIsBreakTime(true)
-					}}
+					onClick={() => setIsBreak(true)}
 				>
 					Break
 				</Button>
 			</div>
 
-			<div className="flex flex-col items-center bg-transparent-w-05 rounded-lg py-5">
+			<div className="flex flex-col items-center h-[208px] bg-transparent-w-05 rounded-lg py-5">
 				<p className="text-5xl font-bold">
-					{isPomodoroTime ? '25:00' : '05:00'}
+					{isBreak ? convertTime(breakTimeCd) : convertTime(pomodoroTimeCd)}
 				</p>
-				<p className="text-xl font-semibold opacity-50">coding</p>
+				<p className="text-xl font-semibold opacity-50">
+					{currentSession.name}
+				</p>
+
 				<div className="flex my-4">
-					<Button className="flex-1 py-1 px-6 bg-primary text-base font-bold text-black text-center rounded-full">
-						Start
-					</Button>
-					<Button>
-						<img
-							src={skipIcon}
-							alt="skip"
-							className="w-9 h-[30px] mx-4 invert"
-						/>
-					</Button>
+					{((isBreakTimePlaying && isBreak) ||
+						(isPomodoroTimePlaying && !isBreak)) && (
+						<Button
+							className="flex-1 py-1 px-6 bg-primary text-base font-bold text-black text-center rounded-full"
+							onClick={handleStopSession}
+						>
+							Stop
+						</Button>
+					)}
+
+					{((!isPomodoroTimePlaying && breakTimeCd === breakTime && !isBreak) ||
+						(!isBreakTimePlaying &&
+							pomodoroTimeCd === pomodoroTime &&
+							isBreak)) && (
+						<Button
+							className="flex-1 py-1 px-6 bg-primary text-base font-bold text-black text-center rounded-full"
+							onClick={handleStartSession}
+						>
+							Start
+						</Button>
+					)}
+
+					{((breakTimeCd === breakTime && !isBreak) ||
+						(pomodoroTimeCd === pomodoroTime && isBreak)) && (
+						<Button onClick={handleSkipSession}>
+							<img
+								src={skipIcon}
+								alt="skip"
+								className="w-9 h-[30px] mx-4 invert"
+							/>
+						</Button>
+					)}
+
+					{!isBreak && breakTimeCd < breakTime && <p>You are in Break time</p>}
+					{isBreak && pomodoroTimeCd < pomodoroTime && (
+						<p>You are in Pomodoro time</p>
+					)}
 				</div>
 
-				<Button
-					className="w-[120px] px-3 py-[3px] border border-white rounded-full text-sm"
-					onClick={() => setModalType('end-session')}
-				>
-					End session
-				</Button>
+				{!isPomodoroTimePlaying && !isBreakTimePlaying && (
+					<Button
+						className="w-[120px] px-3 py-[3px] border border-white rounded-full text-sm"
+						onClick={handleEndSession}
+					>
+						End session
+					</Button>
+				)}
 			</div>
 
 			<div className="flex justify-between my-3">
@@ -199,7 +310,7 @@ function Task({ setTimerMode, setModalType }) {
 									<img src={threeDotsIcon} alt="more options" />
 								</Popover.Button>
 
-								<Popover.Panel className="absolute z-50 bg-bl-13 w-[178px] py-1 px-4 rounded-lg">
+								<Popover.Panel className="absolute z-40 bg-bl-13 w-[178px] py-1 px-4 rounded-lg">
 									<Button
 										className="flex jutify-between items-center my-2"
 										onClick={deleteTask.bind(this, task.id)}
@@ -269,17 +380,45 @@ function Task({ setTimerMode, setModalType }) {
 }
 
 function Timer({ setTimerMode }) {
-	const [pomodoroTime, setPomodoroTime] = useState(25)
-	const [breakTime, setBreakTime] = useState(5)
-	const [isChecked, setIsChecked] = useState(false)
-	const [selectedAlarm, setSelectedAlarm] = useState(ALARM_LINKS[0])
+	const {
+		setBreakTime,
+		breakTime,
+		setPomodoroTime,
+		pomodoroTime,
+		setAlarmLink,
+		alarmLink,
+		alarmPlay,
+		setAlarmPlay,
+		isPomodoroTimePlaying,
+		isBreakTimePlaying,
+		setBreakTimeCd,
+		setPomodoroTimeCd,
+	} = useContext(AppContext)
+	const [breakInput, setBreakInput] = useState(breakTime / 60)
+	const [pomodoroInput, setPomodoroInput] = useState(pomodoroTime / 60)
+
+	const setFloorTime = (value) => (1 < value ? value - 1 : 1)
+
+	const setCeilTime = (value) => (value < 60 ? value + 1 : 60)
+
+	// Back to Tasks modal and save custome time
+	const handleBack = () => {
+		setTimerMode(false)
+		setBreakTime(breakInput * 60)
+		setPomodoroTime(pomodoroInput * 60)
+
+		if (!isPomodoroTimePlaying && !isBreakTimePlaying) {
+			setBreakTimeCd(breakInput * 60)
+			setPomodoroTimeCd(pomodoroInput * 60)
+		}
+	}
 
 	return (
 		<div className="h-[530px]">
 			<div className="handle cursor-move -mt-6 pt-6">
 				<Button
 					className="flex justify-center items-center"
-					onClick={() => setTimerMode(false)}
+					onClick={handleBack}
 				>
 					<img
 						src={arrowLeftIcon}
@@ -298,19 +437,18 @@ function Timer({ setTimerMode }) {
 							src={minusIcon}
 							alt="minus"
 							className="w-1/3 hover:bg-primary cursor-pointer p-4"
-							onClick={() => setPomodoroTime((prev) => prev - 1)}
+							onClick={() => setPomodoroInput(setFloorTime)}
 						/>
 						<input
 							type="number"
-							min={1}
-							value={pomodoroTime}
+							value={pomodoroInput}
 							className="w-1/3 text-right pointer-events-none bg-inherit"
 						/>
 						<img
 							src={plusIcon}
 							alt="plus"
 							className="w-1/3 hover:bg-primary cursor-pointer p-4"
-							onClick={() => setPomodoroTime((prev) => prev + 1)}
+							onClick={() => setPomodoroInput(setCeilTime)}
 						/>
 					</div>
 				</div>
@@ -322,19 +460,18 @@ function Timer({ setTimerMode }) {
 							src={minusIcon}
 							alt="minus"
 							className="w-1/3 hover:bg-primary cursor-pointer p-4"
-							onClick={() => setBreakTime((prev) => prev - 1)}
+							onClick={() => setBreakInput(setFloorTime)}
 						/>
 						<input
 							type="number"
-							min={1}
-							value={breakTime}
+							value={breakInput}
 							className="w-1/3 text-right pointer-events-none bg-inherit"
 						/>
 						<img
 							src={plusIcon}
 							alt="plus"
 							className="w-1/3 hover:bg-primary cursor-pointer p-4"
-							onClick={() => setBreakTime((prev) => prev + 1)}
+							onClick={() => setBreakInput(setCeilTime)}
 						/>
 					</div>
 				</div>
@@ -345,8 +482,8 @@ function Timer({ setTimerMode }) {
 					<h5 className="font-semibold">Play alarm?</h5>
 					<ReactSwitch
 						className="mx-4 mt-2"
-						checked={isChecked}
-						onChange={() => setIsChecked(!isChecked)}
+						checked={alarmPlay}
+						onChange={() => setAlarmPlay(!alarmPlay)}
 						offColor="#0E0E0D"
 						onColor="#f3a952"
 						offHandleColor="#fff"
@@ -360,9 +497,9 @@ function Timer({ setTimerMode }) {
 				<div className="flex-1">
 					<h5 className="font-semibold">Alarm Sound</h5>
 					<div className="relative mt-2">
-						<Listbox value={selectedAlarm} onChange={setSelectedAlarm}>
+						<Listbox value={alarmLink} onChange={setAlarmLink}>
 							<Listbox.Button className="w-full bg-bl-20 py-2 pl-4 pr-5 rounded-lg text-sm text-left">
-								{selectedAlarm.name}
+								{alarmLink.name}
 							</Listbox.Button>
 							<Listbox.Options className="absolute top-12 left-0 w-full rounded-lg p-1 bg-bl-20">
 								{ALARM_LINKS.map((alarm) => (

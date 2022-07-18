@@ -37,7 +37,7 @@ function Set() {
 			))}
 		</div>
 	) : (
-		<div className="m-4">
+		<div className="m-4 min-h-[400px]">
 			<div className="flex items-center">
 				<Button onClick={() => setMode(null)}>
 					<img src={arrowLeftIcon} alt="back" className="w-4 h-4 mx-2" />
@@ -47,11 +47,14 @@ function Set() {
 				</h4>
 			</div>
 
-			{SETS.find((set) => set.set === mode).scenes.map((set) => (
+			{SETS.find((set) => set.set === mode).scenes.map((set, index) => (
 				<Button
-					key={set.set}
+					key={index}
 					className="relative w-full bg-semi-back mt-2"
-					onClick={handleChangeBg.bind(this, set)}
+					onClick={() => {
+						handleChangeBg(set)
+						console.log(set)
+					}}
 				>
 					{set.scene === background.scene && (
 						<div className="absolute top-2 right-2 h-[28px] w-[28px] rounded-full bg-primary"></div>

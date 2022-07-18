@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import Button from './Button'
 import {
 	prevIcon,
@@ -9,23 +9,38 @@ import {
 } from '../assets/icons'
 import { AppContext } from '../context/AppProvider'
 import { nextSong, prevSong } from '../utils'
+import { NOISE_LINKS } from '../constants'
+import { convertTime } from '../utils'
 
 function Audio() {
-	const { currentSong, setCurrentSong, audioRef } = useContext(AppContext)
-	const [isPlaying, setIsPlaying] = useState(false)
+	const {
+		currentSong,
+		setCurrentSong,
+		audioRef,
+		alarmRef,
+		alarmLink,
+		noisesRef,
+		isAudioPlaying,
+		setIsPlaying,
+		currentSession,
+		isBreak,
+		breakTimeCd,
+		pomodoroTimeCd,
+		setModalType,
+	} = useContext(AppContext)
 
 	const handleNextSong = () => {
 		const newSong = nextSong(currentSong.list, currentSong.index)
 		setCurrentSong(newSong)
 		setIsPlaying(true)
-		audioRef.current.play()
+		audioRef.current.autoplay = true
 	}
 
 	const handlePrevSong = () => {
 		const newSong = prevSong(currentSong.list, currentSong.index)
 		setCurrentSong(newSong)
 		setIsPlaying(true)
-		audioRef.current.play()
+		audioRef.current.autoplay = true
 	}
 
 	const handlePlay = () => {
@@ -38,8 +53,14 @@ function Audio() {
 		setIsPlaying(false)
 	}
 
+	useEffect(
+		() =>
+			NOISE_LINKS.forEach((_, index) => (noisesRef.current[index].volume = 0)),
+		[],
+	)
+
 	return (
-		<div className="fixed bottom-0 w-screen z-20">
+		<div className="fixed bottom-0 w-screen animate-fadeIn1s z-20">
 			<div className="py-4 px-8 flex flex-row items-center">
 				<p className="opacity-80 text-sm select-none">
 					Music by - lofi.co 2021 &copy;
@@ -49,13 +70,13 @@ function Audio() {
 						<img src={prevIcon} alt="prev" />
 					</Button>
 					<Button
-						className={`mx-4 ${isPlaying ? 'hidden' : ''}`}
+						className={`mx-4 ${isAudioPlaying ? 'hidden' : ''}`}
 						onClick={handlePlay}
 					>
 						<img src={playIcon} alt="play" width={54} height={54} />
 					</Button>
 					<Button
-						className={`mx-4 ${!isPlaying ? 'hidden' : ''}`}
+						className={`mx-4 ${!isAudioPlaying ? 'hidden' : ''}`}
 						onClick={handlePause}
 					>
 						<img src={pauseIcon} alt="pause" width={54} height={54} />
@@ -64,21 +85,47 @@ function Audio() {
 						<img src={nextIcon} alt="next" />
 					</Button>
 				</div>
-				<div
-					className={`invisible flex items-center text-sm italic backdrop-blur-sm rounded-[20px] py-1.5 px-4 cursor-pointer min-w-[155px]`}
-				>
-					<p className="opacity-50"> / </p>
-					<img
-						src={clockIcon}
-						alt="clock"
-						className="w-[18px] h-[18px] mx-2.5"
-					/>
-					<p className="opacity-50">
-						{/* {isBreak ? convertTime(breakTime) : convertTime(pomodoroTime)} */}
-					</p>
+				<div className=" min-w-[260px]">
+					{currentSession.name && (
+						<div
+							className="flex items-center text-sm italic bg-bl rounded-[20px] py-1.5 px-4 cursor-pointer w-max ml-auto"
+							onClick={() => setModalType('tasks')}
+						>
+							<p className="opacity-50">
+								{currentSession.name}/ {isBreak ? 'Br' : 'Pomo'}/
+							</p>
+							<img
+								src={clockIcon}
+								alt="clock"
+								className="w-[18px] h-[18px] mx-2.5"
+							/>
+							<p className="opacity-50">
+								{isBreak
+									? convertTime(breakTimeCd)
+									: convertTime(pomodoroTimeCd)}
+							</p>
+						</div>
+					)}
 				</div>
 			</div>
-			<audio preload="auto" ref={audioRef} src={currentSong.link} />
+			{/* Music stream */}
+			<audio
+				preload="auto"
+				ref={audioRef}
+				src={currentSong.link}
+				onEnded={handleNextSong}
+			/>
+			{/* Noises sound */}
+			{NOISE_LINKS.map((link, i) => (
+				<audio
+					key={i}
+					src={link}
+					ref={(el) => (noisesRef.current[i] = el)}
+					loop
+				/>
+			))}
+			{/* Alarm sound */}
+			<audio ref={alarmRef} loop src={alarmLink.link} />
 		</div>
 	)
 }

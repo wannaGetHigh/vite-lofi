@@ -1,5 +1,5 @@
 import { useContext, Fragment } from 'react'
-import { Transition, Dialog } from '@headlessui/react'
+import { Transition } from '@headlessui/react'
 
 import { AppContext } from '../../context/AppProvider'
 import ShareModal from './ShareModal'
@@ -46,13 +46,6 @@ function Modal() {
 			>
 				<div className="min-h-screen w-screen flex justify-center items-center text-white z-40">
 					<Modal />
-					{/* {modalType === 'share' && <ShareModal />}
-					{modalType === 'upgrade' && <UpgradeModal />}
-					{modalType === 'settings' && <SettingModal />}
-					{modalType === 'contact' && <ContactModal />}
-					{modalType === 'tutorial' && <TutorialModal />}
-					{modalType === 'info' && <InfoModal />}
-					{modalType === 'notes' && <NotesModal />} */}
 				</div>
 			</Transition.Child>
 		</Transition>

@@ -15,18 +15,18 @@ function AboutModal() {
 	const [about, setAbout] = useState('about')
 
 	return (
-		<div className="absolute inset-0 p-8 bg-transparent-b-70 z-40 select-none">
+		<div classNameName="absolute inset-0 p-8 bg-transparent-b-70 z-40 select-none">
 			<Button
-				className="absolute right-4 top-4"
+				classNameName="absolute right-4 top-4"
 				onClick={() => setModalType(null)}
 			>
 				<img src={closeIcon} alt="close" />
 			</Button>
 
 			{about === 'about' && (
-				<div className="flex flex-col justify-center items-center">
-					<h1 className="text-[46px] font-bold my-8">About us</h1>
-					<p className="w-3/5 text-base text-center mx-16">
+				<div classNameName="flex flex-col justify-center items-center">
+					<h1 classNameName="text-[46px] font-bold my-8">About us</h1>
+					<p classNameName="w-3/5 text-base text-center mx-16">
 						As (mostly) students, we understand how difficult it is to just sit
 						at your desk and focus. Especially when you have to set your music,
 						timer and notes from three different devices or websites, while
@@ -43,57 +43,61 @@ function AboutModal() {
 						We are constantly improving, make sure to follow our socials to stay
 						updated!
 					</p>
-					<div className="flex my-16">
-						<Button className="bg-br rounded-lg py-3 px-8 m-4 hover:scale-105 hover:opacity-80">
+					<div classNameName="flex my-16">
+						<Button classNameName="bg-br rounded-lg py-3 px-8 m-4 hover:scale-105 hover:opacity-80">
 							<a
 								href="https://www.instagram.com/lofi/"
 								target="_blank"
-								rel="noreferer"
-								className="flex items-center justify-between"
+								rel="noreferrer"
+								classNameName="flex items-center justify-between"
 							>
 								<img
 									src={instagramIcon}
 									alt="twitter"
-									className="fill-[#1D93DF]"
+									classNameName="fill-[#1D93DF]"
 								/>
-								<h4 className="text-xl font-bold mx-4">Instagram</h4>
+								<h4 classNameName="text-xl font-bold mx-4">Instagram</h4>
 							</a>
 						</Button>
 
-						<Button className="bg-br rounded-lg py-3 px-8 m-4 hover:scale-105 hover:opacity-80">
+						<Button classNameName="bg-br rounded-lg py-3 px-8 m-4 hover:scale-105 hover:opacity-80">
 							<a
 								href="https://twitter.com/lofidotco"
 								target="_blank"
-								rel="noreferer"
-								className="flex items-center justify-between"
+								rel="noreferrer"
+								classNameName="flex items-center justify-between"
 							>
 								<img
 									src={twitterIcon}
 									alt="twitter"
-									className="fill-[#1D93DF]"
+									classNameName="fill-[#1D93DF]"
 								/>
-								<h4 className="text-xl font-bold mx-4">Twitter</h4>
+								<h4 classNameName="text-xl font-bold mx-4">Twitter</h4>
 							</a>
 						</Button>
 
-						<Button className="bg-br flex items-center justify-between rounded-lg py-3 px-8 m-4 hover:scale-105 hover:opacity-80">
-							<img src={clockIcon} alt="twitter" className="fill-[#1D93DF]" />
-							<h4 className="text-xl font-bold mx-4">hello@lofi.com</h4>
+						<Button classNameName="bg-br flex items-center justify-between rounded-lg py-3 px-8 m-4 hover:scale-105 hover:opacity-80">
+							<img
+								src={clockIcon}
+								alt="twitter"
+								classNameName="fill-[#1D93DF]"
+							/>
+							<h4 classNameName="text-xl font-bold mx-4">hello@lofi.com</h4>
 						</Button>
 					</div>
 
-					<div className="flex items-center">
+					<div classNameName="flex items-center">
 						<Button
-							className="p-[18px] text-lg font-bold"
+							classNameName="p-[18px] text-lg font-bold"
 							onClick={() => setAbout('term')}
 						>
 							Terms & Conditions
 						</Button>
 
-						<div className="border-l w-px h-5 border-white"></div>
+						<div classNameName="border-l w-px h-5 border-white"></div>
 
 						<Button
-							className="p-[18px] text-lg font-bold"
+							classNameName="p-[18px] text-lg font-bold"
 							onClick={() => setAbout('privacy')}
 						>
 							Terms & Conditions
@@ -110,19 +114,19 @@ function AboutModal() {
 
 function TermAndconditions({ setAbout }) {
 	return (
-		<div className="w-3/4 min-w-[600px] h-full m-auto overflow-y-auto select-none text-sm">
-			<div className="flex items-center">
+		<div classNameName="w-3/4 min-w-[600px] h-full m-auto overflow-y-auto select-none text-sm">
+			<div classNameName="flex items-center">
 				<Button>
 					<img
 						src={arrowLeftIcon}
 						alt="back"
-						className="w-[22px] h-[22px] mx-8"
+						classNameName="w-[22px] h-[22px] mx-8"
 						onClick={() => setAbout('about')}
 					/>
 				</Button>
-				<h1 className="text-[46px] font-bold my-8">Term and Conditions</h1>
+				<h1 classNameName="text-[46px] font-bold my-8">Term and Conditions</h1>
 			</div>
-			<p class="font-bold">Welcome to our website.&nbsp;</p>
+			<p classNameName="font-bold">Welcome to our website.&nbsp;</p>
 			<p>&nbsp;</p>
 			<p>
 				<span>
@@ -139,7 +143,7 @@ function TermAndconditions({ setAbout }) {
 					website&nbsp;{' '}
 				</span>
 				<a href="http://www.lofi.co/">
-					<span class="text-primary">http://www.lofi.co/</span>
+					<span classNameName="text-primary">http://www.lofi.co/</span>
 				</a>
 				<span>
 					. The term 'you' refers to the user or viewer of our website. Your use
@@ -147,7 +151,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">Terms of Service</p>
+			<p classNameName="font-bold">Terms of Service</p>
 			<p>
 				<span>
 					We offer a variety of products on our platform customized to meet your
@@ -158,11 +162,11 @@ function TermAndconditions({ setAbout }) {
 			</p>
 			<p>
 				<span>The music played on </span>
-				<a href="http://lofi.co" class="text-primary">
+				<a href="http://lofi.co" className="text-primary">
 					<span>lofi.co</span>
 				</a>
 				<span> is owned by </span>
-				<a href="http://lofi.co" class="text-primary">
+				<a href="http://lofi.co" className="text-primary">
 					<span>lofi.co</span>
 				</a>
 				<span>
@@ -172,7 +176,7 @@ function TermAndconditions({ setAbout }) {
 			</p>
 			<p>
 				<span>The illustrations on </span>
-				<a href="http://lofi.co" class="text-primary">
+				<a href="http://lofi.co" className="text-primary">
 					<span>lofi.co</span>
 				</a>
 				<span>
@@ -184,7 +188,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">USER REPRESENTATIONS</p>
+			<p className="font-bold">USER REPRESENTATIONS</p>
 			<p>
 				<span>By using the Site, you represent and warrant that:&nbsp;</span>
 			</p>
@@ -219,7 +223,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">USER REGISTRATION</p>
+			<p className="font-bold">USER REGISTRATION</p>
 			<p>
 				<span>
 					You may be required to register with the Site. You agree to keep your
@@ -231,7 +235,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">MODIFICATION OF THE SERVICE</p>
+			<p className="font-bold">MODIFICATION OF THE SERVICE</p>
 			<p>
 				<span>
 					We reserve the right, at any time, to modify, suspend, or discontinue
@@ -239,7 +243,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">THIRD-PARTY WEBSITES&nbsp;</p>
+			<p className="font-bold">THIRD-PARTY WEBSITES&nbsp;</p>
 			<p>
 				The Site may contain links to other websites ("Third-Party Websites") as
 				well as articles, photographs, text, graphics, pictures, designs, music,
@@ -250,7 +254,7 @@ function TermAndconditions({ setAbout }) {
 				through, or installed from the Site.
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">General Limitation of Liability</p>
+			<p className="font-bold">General Limitation of Liability</p>
 			<p>
 				<span>
 					Lofi.co provides the Site on an “as is” basis and makes no
@@ -264,7 +268,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">Indemnification</p>
+			<p className="font-bold">Indemnification</p>
 			<p>
 				<span>
 					You agree to indemnify, defend and hold harmless the Site, its
@@ -296,7 +300,7 @@ function TermAndconditions({ setAbout }) {
 				</li>
 			</ol>
 			<p>&nbsp;</p>
-			<p class="font-bold">Governing law and disputes</p>
+			<p className="font-bold">Governing law and disputes</p>
 			<p>
 				<span>
 					This Agreement shall be governed by and constructed exclusively in
@@ -307,7 +311,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">Refund Policy</p>
+			<p className="font-bold">Refund Policy</p>
 			<p>
 				<span>
 					We offer a 7 day money-back guarantee on our premium plans. Please
@@ -319,7 +323,7 @@ function TermAndconditions({ setAbout }) {
 				</span>
 			</p>
 			<p>&nbsp;</p>
-			<p class="font-bold">CONTACT INFORMATION</p>
+			<p className="font-bold">CONTACT INFORMATION</p>
 			<p>
 				<span>
 					For any assistance or clarification kindly reach out to us via:
@@ -334,17 +338,17 @@ function TermAndconditions({ setAbout }) {
 
 function PrivacyPolicity({ setAbout }) {
 	return (
-		<div className="w-3/4 min-w-[600px] h-full m-auto overflow-y-auto select-none text-sm">
-			<div className="flex items-center">
+		<div classNameName="w-3/4 min-w-[600px] h-full m-auto overflow-y-auto select-none text-sm">
+			<div classNameName="flex items-center">
 				<Button>
 					<img
 						src={arrowLeftIcon}
 						alt="back"
-						className="w-[22px] h-[22px] mx-8"
+						classNameName="w-[22px] h-[22px] mx-8"
 						onClick={() => setAbout('about')}
 					/>
 				</Button>
-				<h1 className="text-[46px] font-bold my-8">Privacy Policity</h1>
+				<h1 classNameName="text-[46px] font-bold my-8">Privacy Policity</h1>
 			</div>
 			<p>
 				By interacting with us, submitting Information to us, or signing up for

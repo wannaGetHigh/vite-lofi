@@ -82,7 +82,7 @@ function Carousel() {
 				{dots}
 			</ul>
 		),
-		customPaging: (i) => (
+		customPaging: () => (
 			<div className="w-full h-full py-1 opacity-50 hover:opacity-100 duration-200 ease-in">
 				<div className="h-1 bg-white rounded-2xl"></div>
 			</div>

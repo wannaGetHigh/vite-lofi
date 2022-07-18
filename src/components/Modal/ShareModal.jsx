@@ -44,7 +44,9 @@ function ShareModal() {
 					>
 						{link}
 					</div>
-					{copied && <div className="text-light-green text-sm">Copied!</div>}
+					{copied && (
+						<div className="text-light-green text-center text-sm">Copied!</div>
+					)}
 
 					<Button className="min-w-[120px] flex justify-center items-center m-auto mt-7 p-2 bg-primary font-semibold text-sm text-black rounded-full hover:opacity-50">
 						<img

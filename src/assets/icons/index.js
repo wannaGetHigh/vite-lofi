@@ -57,6 +57,7 @@ import messageIcon from './message.svg'
 import spotifyIcon from './spotify.svg'
 import playlistIcon from './playlist.svg'
 import infoIcon from './info.svg'
+import crownIcon from './crown.svg'
 
 import cityIcon from './noises/city.svg'
 import cityRainIcon from './noises/city-rain.svg'
@@ -82,7 +83,10 @@ import focusActiveIcon from './templates/focus-active.svg'
 import sleepyTemplateIcon from './templates/sleepy.svg'
 import sleepyActiveIcon from './templates/sleepy-active.svg'
 
+export * from './SidebarIcon'
+
 export {
+	crownIcon,
 	threeDotsIcon,
 	sawIcon,
 	activityIcon,
@@ -163,5 +167,5 @@ export {
 	focusTemplateIcon,
 	focusActiveIcon,
 	sleepyTemplateIcon,
-	sleepyActiveIcon
+	sleepyActiveIcon,
 }
