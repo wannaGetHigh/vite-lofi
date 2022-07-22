@@ -137,8 +137,6 @@ function AppProvider({ children }) {
 		return () => clearTimeout(breakTimeout)
 	}, [isBreakTimePlaying, breakTimeCd])
 
-	console.log(user)
-
 	const value = {
 		alarmRef,
 		noisesRef,

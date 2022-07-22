@@ -416,6 +416,13 @@ function Timer({ setTimerMode }) {
 			setBreakTimeCd(breakInput * 60)
 			setPomodoroTimeCd(pomodoroInput * 60)
 		}
+
+		updateUser(uid, {
+			timer: {
+				breakTime: breakInput * 60,
+				pomodoroTime: pomodoroInput * 60,
+			},
+		})
 	}
 
 	useEffect(() => {

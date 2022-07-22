@@ -89,6 +89,7 @@ export const addNewUser = async (uid, data) => {
 			pomodoroTime: 1500,
 			breakTime: 300,
 		},
+		templates: [],
 		createdAt: serverTimestamp(),
 		modifiedAt: serverTimestamp(),
 	})
