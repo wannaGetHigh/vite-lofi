@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from 'react'
 import Draggable from 'react-draggable'
 import ReactSwitch from 'react-switch'
 import { Listbox, Popover } from '@headlessui/react'
+import { v4 as uuidv4 } from 'uuid'
 
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import { ALARM_LINKS } from '../../constants'
 import {
 	closeIcon,
@@ -21,7 +22,8 @@ import {
 	currentIcon,
 	binIcon,
 } from '../../assets/icons'
-import { convertTime, getDate } from '../../utils'
+import { convertTime } from '../../utils'
+import { updateUser } from '../../firebase'
 
 function TaskModal() {
 	const { setModalType, currentSession } = useContext(AppContext)
@@ -85,7 +87,7 @@ function Task({ setTimerMode }) {
 			setTaskList((prev) => [
 				...prev,
 				{
-					id: Math.random(),
+					id: uuidv4(),
 					completed: false,
 					name: taskName,
 					isCurrent: false,
@@ -167,14 +169,11 @@ function Task({ setTimerMode }) {
 
 		const time = currentSession.pomodoroLength + currentSession.breakLength
 
-		const date = getDate(new Date())
-
 		setCurrentSession({
 			...currentSession,
 			completedTask,
 			uncompletedTask,
 			time,
-			date,
 		})
 
 		setModalType('end-session')
@@ -380,6 +379,7 @@ function Task({ setTimerMode }) {
 }
 
 function Timer({ setTimerMode }) {
+	const { uid } = useContext(AuthContext)
 	const {
 		setBreakTime,
 		breakTime,
@@ -393,9 +393,14 @@ function Timer({ setTimerMode }) {
 		isBreakTimePlaying,
 		setBreakTimeCd,
 		setPomodoroTimeCd,
+		alarmRef,
 	} = useContext(AppContext)
 	const [breakInput, setBreakInput] = useState(breakTime / 60)
 	const [pomodoroInput, setPomodoroInput] = useState(pomodoroTime / 60)
+	const [selectedAlarm, setSelectedAlarm] = useState(
+		ALARM_LINKS.find((item) => item.link === alarmLink),
+	)
+	const [initSelect, setInitSelect] = useState(true)
 
 	const setFloorTime = (value) => (1 < value ? value - 1 : 1)
 
@@ -412,6 +417,25 @@ function Timer({ setTimerMode }) {
 			setPomodoroTimeCd(pomodoroInput * 60)
 		}
 	}
+
+	useEffect(() => {
+		if (initSelect) {
+			setInitSelect(false)
+		} else {
+			setAlarmLink(selectedAlarm.link)
+
+			alarmRef.current.load()
+			alarmRef.current.play()
+
+			updateUser(uid, {
+				'alarm.isOn': alarmPlay,
+				'alarm.link': selectedAlarm.link,
+			})
+		}
+
+		const timeout = setTimeout(() => alarmRef.current.pause(), 5000)
+		return () => clearTimeout(timeout)
+	}, [selectedAlarm])
 
 	return (
 		<div className="h-[530px]">
@@ -497,9 +521,9 @@ function Timer({ setTimerMode }) {
 				<div className="flex-1">
 					<h5 className="font-semibold">Alarm Sound</h5>
 					<div className="relative mt-2">
-						<Listbox value={alarmLink} onChange={setAlarmLink}>
+						<Listbox value={selectedAlarm} onChange={setSelectedAlarm}>
 							<Listbox.Button className="w-full bg-bl-20 py-2 pl-4 pr-5 rounded-lg text-sm text-left">
-								{alarmLink.name}
+								{selectedAlarm.name}
 							</Listbox.Button>
 							<Listbox.Options className="absolute top-12 left-0 w-full rounded-lg p-1 bg-bl-20">
 								{ALARM_LINKS.map((alarm) => (

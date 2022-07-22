@@ -18,9 +18,10 @@ import Template from './Template'
 import Set from './Set'
 import useClickOutside from '../../hook/useClickOutside'
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AuthContext, AppContext } from '../../context'
 
 function Sidebar() {
+	const { uid } = useContext(AuthContext)
 	const { setModalType, modalType } = useContext(AppContext)
 	const [menuTab, setMenuTab] = useState()
 	const [focusMenu, setFocusMenu] = useState(false)
@@ -87,7 +88,9 @@ function Sidebar() {
 							<Button
 								key={alt}
 								className="flex justify-center items-center w-[60px] h-[55px] hover:opacity-100"
-								onClick={() => setModalType(modalName)}
+								onClick={() =>
+									uid ? setModalType(modalName) : setModalType('login')
+								}
 							>
 								<TippyHeadless
 									render={(attrs) => (

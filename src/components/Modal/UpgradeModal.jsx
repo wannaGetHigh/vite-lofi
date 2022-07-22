@@ -3,7 +3,7 @@ import ReactSwitch from 'react-switch'
 
 import Button from '../Button'
 import { BASIC_PACKAGE, PREMIUM_PACKAGE } from '../../constants'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import { closeIcon, checkIcon, uncheckIcon } from '../../assets/icons'
 import { mosaicImg } from '../../assets/images'
 

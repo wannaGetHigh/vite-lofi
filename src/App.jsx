@@ -11,15 +11,13 @@ function App() {
 	const [isIdle, setIsIdle] = useState(false)
 	const onIdle = () => {
 		setIsIdle(true)
-		console.log(isIdle)
 	}
 
 	const onActive = () => {
 		setIsIdle(false)
-		console.log(isIdle)
 	}
 
-	useIdleTimer({ timeout: 1000 * 5, onIdle, onActive })
+	useIdleTimer({ timeout: 1000 * 15, onIdle, onActive })
 
 	return (
 		<div className="min-h-screen overflow-hidden bg-[#1c1a23]">

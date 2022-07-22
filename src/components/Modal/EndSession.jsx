@@ -2,37 +2,33 @@ import { useContext } from 'react'
 
 import { checkIcon, uncheckIcon } from '../../assets/icons'
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import { convertTime } from '../../utils'
+import { addNewSession } from '../../firebase'
 
 function EndSession() {
-	const {
-		setModalType,
-		currentSession,
-		setCurrentSession,
-		setIsBreak,
-		setSessionList,
-	} = useContext(AppContext)
+	const { uid } = useContext(AuthContext)
+	const { setModalType, currentSession, setCurrentSession, setIsBreak } =
+		useContext(AppContext)
 
 	const refreshSession = () => {
+		// update session in firestore
+		addNewSession(uid, currentSession)
+
 		setCurrentSession({
 			name: '',
 			time: 0,
 			pomodoroLength: 0,
 			breakLength: 0,
-			date: '',
 			pomodoroCount: 0,
 			breakCount: 0,
 			taskList: [],
 			completedTask: [],
 			uncompletedTask: [],
 		})
-		setSessionList((prev) => [...prev, currentSession])
 		setIsBreak(false)
 		setModalType(null)
 	}
-
-	console.log('end', currentSession)
 
 	return (
 		<div className="absolute inset-0 flex justify-center text-left bg-transparent-b-70 backdrop-blur-xl z-40">

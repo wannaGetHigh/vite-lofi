@@ -1,8 +1,6 @@
 import { useContext } from 'react'
 import { Menu } from '@headlessui/react'
 
-import { AppContext } from '../../context/AppProvider'
-
 import {
 	profileIcon,
 	barsIcon,
@@ -12,15 +10,21 @@ import {
 	playlistIcon,
 	infoIcon,
 } from '../../assets/icons'
+import { AuthContext, AppContext } from '../../context'
+import { signInWithGoogle } from '../../firebase'
 
 function MenuDropdow() {
 	const { setModalType } = useContext(AppContext)
+	const { uid } = useContext(AuthContext)
 
 	const items = [
 		{
 			icon: profileIcon,
 			alt: 'profile',
-			text: 'Login',
+			text: 'User settings',
+			onClick() {
+				uid ? setModalType('profile') : signInWithGoogle()
+			},
 		},
 		{
 			icon: sawIcon,

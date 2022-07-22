@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import { closeIcon } from '../../assets/icons'
 
 function SettingModal() {

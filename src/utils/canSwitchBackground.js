@@ -2,7 +2,7 @@ import { BACKGROUND_LINKS_LIST } from '../constants'
 
 function canSwitchBackground(currentBg) {
 	const currentSet = BACKGROUND_LINKS_LIST.filter(
-		(video) => video.scene === currentBg.scene,
+		(video) => video.scene === currentBg?.scene,
 	)
 
 	const canSwitchToNight = currentSet.some((video) => video.day === false)

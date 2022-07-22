@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import Draggable from 'react-draggable'
 
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import { closeIcon } from '../../assets/icons'
 import ReactSwitch from 'react-switch'
 

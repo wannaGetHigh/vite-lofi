@@ -12,11 +12,14 @@ import {
 } from '../../assets/icons'
 import Button from '../Button'
 import MenuDropdow from './MenuDropdown'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import { canSwitchBackground, changeBackground } from '../../utils'
+import { signInWithGoogle } from '../../firebase'
+import { updateUser } from '../../firebase'
 
 function Navbar() {
 	const { setModalType, background, setBackground } = useContext(AppContext)
+	const { uid } = useContext(AuthContext)
 	const [fullScreen, setFullScreen] = useState(false)
 
 	const toggleFullscreen = () => {
@@ -41,6 +44,8 @@ function Navbar() {
 		const newBg = changeBackground(background, condition)
 
 		setBackground(newBg)
+
+		if (uid) updateUser(uid, { background: newBg })
 	}
 
 	return (
@@ -107,9 +112,14 @@ function Navbar() {
 							</p>
 						</div>
 
-						<Button className="py-[5px] px-4 bg-transparent-w-25 rounded-lg text-sm font-medium leading-[22px]">
-							Sign up
-						</Button>
+						{!uid && (
+							<Button
+								className="py-[5px] px-4 bg-transparent-w-25 rounded-lg text-sm font-medium leading-[22px]"
+								onClick={signInWithGoogle}
+							>
+								Sign up
+							</Button>
+						)}
 					</>
 				)}
 

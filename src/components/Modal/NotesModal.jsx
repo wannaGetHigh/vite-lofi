@@ -1,56 +1,61 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Draggable from 'react-draggable'
 import { convert } from 'html-to-text'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import '../../customCKEditor.css'
+import { v4 as uuidv4 } from 'uuid'
 
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import {
 	closeIcon,
 	titleNotesIcon,
 	newNoteIcon,
 	binIcon,
 } from '../../assets/icons'
+import { addNote, updateNote, removeNote } from '../../firebase'
 import { getDate } from '../../utils'
 
 function NotesModal() {
+	const { uid, notesList } = useContext(AuthContext)
 	const { setModalType } = useContext(AppContext)
-	const [currentNote, setCurrentNote] = useState({ title: '', content: '' })
+
+	const [currentNote, setCurrentNote] = useState({
+		id: '',
+		title: '',
+		content: '',
+	})
 	const [renderEditor, setRenderEditor] = useState(false)
-	const [notesList, setNotesList] = useState([])
 
 	const saveNote = () => {
 		if (currentNote.id) {
-			console.log(currentNote)
-			setNotesList((prev) =>
-				prev.map((note) => (note.id === currentNote.id ? currentNote : note)),
-			)
-		} else if (currentNote.content || currentNote.title) {
-			setNotesList((prev) => [
-				...prev,
-				{
-					id: Math.random(),
-					title: currentNote.title,
-					content: currentNote.content,
-					date: getDate(new Date()),
-				},
-			])
+			const title = currentNote.title
+			const content = currentNote.content
+
+			updateNote(uid, currentNote.id, { title, content })
+		} else {
+			addNote(uid, {
+				id: uuidv4(),
+				title: currentNote.title,
+				content: currentNote.content,
+			})
 		}
 		resetNote()
 	}
 
 	const deleteNote = (id) => {
-		setNotesList((prev) => prev.filter((note) => note.id !== id))
-		resetNote()
+		if (id) {
+			removeNote(uid, id)
+			resetNote()
+		}
 	}
 
 	const resetNote = () => {
 		setCurrentNote({ id: '', title: '', content: '' })
 	}
 
-	// Fix CKEditor instance null
+	// Hot fix CKEditor instance null
 	useEffect(() => setRenderEditor(true), [])
 
 	return (
@@ -76,16 +81,6 @@ function NotesModal() {
 						</div>
 
 						<div className="h-[400px] border border-transparent-w-20 rounded-2xl overflow-y-auto">
-							{/* <div className="w-full hover:opacity-70 p-2 cursor-pointer">
-								<h5 className="text-lg font-medium">Welcome</h5>
-								<time className="text-xs">13/07/2022</time>
-								<p className="text-sm truncate">to lofi.co</p>
-							</div>
-							<div className="w-full hover:opacity-70 p-2 cursor-pointer ">
-								<h5 className="text-lg font-medium">Welcome</h5>
-								<time className="text-xs">13/07/2022</time>
-								<p className="text-sm truncate">to lofi.co</p>
-							</div> */}
 							{notesList.length === 0 ? (
 								<div className="flex items-center justify-center h-full">
 									No notes
@@ -100,7 +95,9 @@ function NotesModal() {
 										onClick={() => setCurrentNote(note)}
 									>
 										<h5 className="text-lg font-medium">{note.title}</h5>
-										<time className="text-xs">{note.date}</time>
+										<time className="text-xs">
+											{getDate(note?.createdAt?.seconds)}
+										</time>
 										<p className="text-sm truncate">{convert(note.content)}</p>
 									</div>
 								))

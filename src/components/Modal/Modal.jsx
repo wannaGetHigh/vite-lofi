@@ -1,7 +1,7 @@
 import { useContext, Fragment } from 'react'
 import { Transition } from '@headlessui/react'
 
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import ShareModal from './ShareModal'
 import UpgradeModal from './UpgradeModal'
 import SettingModal from './SettingModal'
@@ -13,6 +13,8 @@ import TaskModal from './TaskModal'
 import NotesModal from './NotesModal'
 import EndSession from './EndSession'
 import HistoryModal from './HistoryModal'
+import ProfileModal from './ProfileModal'
+import LoginModal from './LoginModal'
 
 function Modal() {
 	const { modalType } = useContext(AppContext)
@@ -28,6 +30,8 @@ function Modal() {
 		tasks: TaskModal,
 		notes: NotesModal,
 		history: HistoryModal,
+		profile: ProfileModal,
+		login: LoginModal,
 		'end-session': EndSession,
 	}
 

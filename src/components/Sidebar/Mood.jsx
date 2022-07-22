@@ -16,20 +16,32 @@ import {
 } from '../../constants'
 import { randomSong } from '../../utils'
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
+import { updateUser } from '../../firebase'
 
 function Mood() {
+	const { uid } = useContext(AuthContext)
 	const {
 		setCurrentSong,
 		setIsPlaying,
 		setBackground,
-		setTemplates,
-		templates,
 		background,
 		audioRef,
 		noisesRef,
+		templates,
+		setTemplates,
 	} = useContext(AppContext)
 	const [noisesList, setNoisesList] = useState(3)
+
+	const moods = [
+		{ src: sleepyIcon, text: 'Sleepy' },
+		{ src: jazzyIcon, text: 'Jazzy' },
+		{ src: chillIcon, text: 'Chilly' },
+	]
+
+	const isSavedTemplate = templates?.some(
+		(template) => template.scene === background.scene,
+	)
 
 	const handleNoisesList = () => {
 		if (noisesList === 3) {
@@ -53,17 +65,15 @@ function Mood() {
 		setCurrentSong(newSong)
 		setIsPlaying(true)
 		audioRef.current.autoplay = true
+
+		if (uid) updateUser(uid, { 'background.mood': type })
 	}
 
-	const moods = [
-		{ src: sleepyIcon, text: 'Sleepy' },
-		{ src: jazzyIcon, text: 'Jazzy' },
-		{ src: chillIcon, text: 'Chilly' },
-	]
-
-	const isSaved = templates?.some(
-		(template) => template.scene === background.scene,
-	)
+	const handleSaveTemplate = () => {
+		const newTemplate = [...templates, background]
+		setTemplates(newTemplate)
+		if (uid) updateUser(uid, { templates: newTemplate })
+	}
 
 	const noiseAudio = NOISE_ICONS.map(({ label, icon }, index) => (
 		<div
@@ -72,7 +82,7 @@ function Mood() {
 		>
 			<p className="opacity-40 text-sm select-none">{label}</p>
 			<ReactSlider
-				className="h-6 w-[148px] bg-bl-20 rounded-full mr-1"
+				className="h-[26px] w-[148px] bg-bl-20 rounded-full mr-1"
 				defaultValue={noisesRef.current[index].volume * 100}
 				onChange={(value) => {
 					const thisNoise = noisesRef.current[index]
@@ -94,11 +104,11 @@ function Mood() {
 				renderThumb={(props, state) => (
 					<div
 						{...props}
-						className={`h-6 w-6 rounded-full cursor-pointer ${
+						className={`rounded-full cursor-pointer ${
 							state.value === 0 ? 'brightness-[0.5]' : ''
 						}`}
 					>
-						<img src={icon} alt={label} />
+						<img src={icon} alt={label} className="w-[26px] h-[26px]" />
 					</div>
 				)}
 			/>
@@ -110,7 +120,7 @@ function Mood() {
 			{/* Title */}
 			<div className="flex justify-between items-center mx-8  select-none">
 				<h4 className="my-4 text-xl font-bold">Mood</h4>
-				{isSaved ? (
+				{isSavedTemplate ? (
 					<div className="flex items-center gap-2 text-[#5293f3] font-semibold text-base">
 						<img src={bookmarkIcon} alt="bookmark" />
 						SAVED
@@ -118,7 +128,7 @@ function Mood() {
 				) : (
 					<Button
 						className="flex items-center gap-3 py-1 px-4 border border-[#5293f3] rounded-full bg-transparent-w-05"
-						onClick={() => setTemplates((prev) => [...prev, background])}
+						onClick={handleSaveTemplate}
 					>
 						<img src={bookmarkIcon} alt="bookmark" />
 						Save Template

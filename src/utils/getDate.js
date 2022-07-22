@@ -1,9 +1,11 @@
-const getDate = (time) => {
-	const day = time.getDate()
+const getDate = (timeInSec) => {
+	const date = new Date(timeInSec * 1000)
 
-	const month = time.getMonth() + 1
+	const day = date.getDate()
 
-	const year = time.getFullYear()
+	const month = date.getMonth() + 1
+
+	const year = date.getFullYear()
 
 	const prefixZero = (time) => (time < 10 ? '0' + time : time)
 

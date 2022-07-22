@@ -3,10 +3,12 @@ import { useState, useContext } from 'react'
 import { arrowLeftIcon } from '../../assets/icons'
 import { SETS } from '../../constants'
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import changeBackground from '../../utils/changeBackground'
+import { updateUser } from '../../firebase'
 
 function Set() {
+	const { uid } = useContext(AuthContext)
 	const { background, setBackground } = useContext(AppContext)
 	const [mode, setMode] = useState(null)
 
@@ -21,6 +23,8 @@ function Set() {
 		const newBg = changeBackground(background, condition)
 
 		setBackground(newBg)
+
+		if (uid) updateUser(uid, { background: newBg })
 	}
 
 	return !mode ? (
@@ -51,10 +55,7 @@ function Set() {
 				<Button
 					key={index}
 					className="relative w-full bg-semi-back mt-2"
-					onClick={() => {
-						handleChangeBg(set)
-						console.log(set)
-					}}
+					onClick={() => handleChangeBg(set)}
 				>
 					{set.scene === background.scene && (
 						<div className="absolute top-2 right-2 h-[28px] w-[28px] rounded-full bg-primary"></div>

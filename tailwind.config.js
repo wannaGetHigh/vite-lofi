@@ -31,6 +31,7 @@ module.exports = {
 				'transparent-b-10': 'rgb(243 169 82 / 10%)',
 				'transparent-w-05': 'rgba(255, 255, 255, 0.05)',
 				'transparent-w-25': 'rgba(255, 255, 255, 0.25)',
+				'bgd-200': 'rgba(40, 40, 40, 0.3)',
 			}),
 			backgroundImage: {
 				'gradient-269deg':

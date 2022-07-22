@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import Draggable from 'react-draggable'
 
 import Button from '../Button'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import {
 	activityIcon,
 	closeIcon,
@@ -12,7 +12,7 @@ import {
 	checkIcon,
 	uncheckIcon,
 } from '../../assets/icons'
-import { convertTime, totalHour } from '../../utils'
+import { convertTime, dayStreak, getDate, totalHour } from '../../utils'
 
 function HistoryModal() {
 	const { setModalType } = useContext(AppContext)
@@ -44,7 +44,7 @@ function HistoryModal() {
 }
 
 function Overview({ setSessionDetail }) {
-	const { sessionList } = useContext(AppContext)
+	const { sessionList } = useContext(AuthContext)
 
 	return (
 		<>
@@ -78,7 +78,7 @@ function Overview({ setSessionDetail }) {
 						</div>
 						<div>
 							<p className="text-sm opacity-50">Day Streak</p>
-							<p className="text-xl font-bold">1</p>
+							<p className="text-xl font-bold">{dayStreak(sessionList)}</p>
 						</div>
 					</div>
 				</div>
@@ -103,7 +103,7 @@ function Overview({ setSessionDetail }) {
 										<span className="ml-2 text-lg">min</span>
 									</p>
 									<time className="self-end opacity-50 text-sm">
-										{session.date}
+										{getDate(session.createdAt.seconds)}
 									</time>
 								</div>
 							</Button>
@@ -116,7 +116,8 @@ function Overview({ setSessionDetail }) {
 }
 
 function Detail({ setSessionDetail, sessionDetail }) {
-	console.log(sessionDetail)
+	const timeInSec = sessionDetail.createdAt.seconds
+
 	return (
 		<>
 			<div className="handle cursor-move -mt-6 pt-6">
@@ -139,7 +140,7 @@ function Detail({ setSessionDetail, sessionDetail }) {
 					<h3 className="mb-1 text-2xl font-semibold">{sessionDetail.name}</h3>
 					<div className="flex justify-between items-center py-2 text-sm border-b border-transparent-w-05">
 						<p>Date:</p>
-						<time className="text-primary">{sessionDetail.date}</time>
+						<time className="text-primary">{getDate(timeInSec)}</time>
 					</div>
 					<div className="flex justify-between items-center py-2 text-sm">
 						<p>Length:</p>

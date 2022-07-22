@@ -1,35 +1,50 @@
-import { createContext, useState, useRef, useEffect } from 'react'
+import { createContext, useState, useRef, useEffect, useContext } from 'react'
 
-import { BACKGROUND_LINKS_LIST, ALARM_LINKS, JAZZY_LINKS } from '../constants'
+import { JAZZY_LINKS, CHILL_LINKS, SLEEPY_LINKS } from '../constants'
+import { AuthContext } from './AuthProvider'
 
 export const AppContext = createContext()
 
 function AppProvider({ children }) {
+	const { user } = useContext(AuthContext)
 	const [modalType, setModalType] = useState()
 	const [currentSong, setCurrentSong] = useState(() => {
-		let randomIndex = Math.floor(Math.random() * JAZZY_LINKS.length)
-		return {
-			list: JAZZY_LINKS,
-			index: randomIndex,
-			link: JAZZY_LINKS[randomIndex],
+		let randomIndex
+
+		switch (user?.background.mood) {
+			case 'Chilly':
+				randomIndex = Math.floor(Math.random() * CHILL_LINKS.length)
+				return {
+					list: CHILL_LINKS,
+					index: randomIndex,
+					link: CHILL_LINKS[randomIndex],
+				}
+			case 'Jazzy':
+				randomIndex = Math.floor(Math.random() * JAZZY_LINKS.length)
+				return {
+					list: JAZZY_LINKS,
+					index: randomIndex,
+					link: JAZZY_LINKS[randomIndex],
+				}
+			case 'Sleepy':
+				randomIndex = Math.floor(Math.random() * SLEEPY_LINKS.length)
+				return {
+					list: SLEEPY_LINKS,
+					index: randomIndex,
+					link: SLEEPY_LINKS[randomIndex],
+				}
+			default:
+				randomIndex = Math.floor(Math.random() * CHILL_LINKS.length)
+				return {
+					list: CHILL_LINKS,
+					index: randomIndex,
+					link: CHILL_LINKS[randomIndex],
+				}
 		}
 	})
-	const [background, setBackground] = useState({
-		mood: 'Chilly',
-		set: 'chill',
-		scene: 'chill1',
-		show1: true,
-		day: true,
-		rainy: false,
-		link1: BACKGROUND_LINKS_LIST.find(
-			(item) =>
-				item.set === 'chill' &&
-				item.scene === 'chill1' &&
-				item.day === true &&
-				item.rainy === false,
-		).link,
-		link2: '',
-	})
+
+	// Background
+	const [background, setBackground] = useState(user?.background)
 	const [currentSession, setCurrentSession] = useState({
 		name: '',
 		time: 0,
@@ -42,9 +57,9 @@ function AppProvider({ children }) {
 		completedTask: [],
 		uncompletedTask: [],
 	})
-	const [sessionList, setSessionList] = useState([])
-	const [breakTime, setBreakTime] = useState(5 * 60)
-	const [pomodoroTime, setPomodoroTime] = useState(25 * 60)
+
+	const [breakTime, setBreakTime] = useState(user?.timer.breakTime)
+	const [pomodoroTime, setPomodoroTime] = useState(user?.timer.pomodoroTime)
 	const [breakTimeCd, setBreakTimeCd] = useState(breakTime)
 	const [pomodoroTimeCd, setPomodoroTimeCd] = useState(pomodoroTime)
 	const [isBreak, setIsBreak] = useState(false)
@@ -52,11 +67,14 @@ function AppProvider({ children }) {
 	const [isBreakTimePlaying, setIsBreakTimePlaying] = useState(false)
 	const [breakTimeout, setBreakTimeout] = useState()
 	const [pomodoroTimeout, setPomodoroTimeout] = useState()
-	const [templates, setTemplates] = useState([])
 	const [isAudioPlaying, setIsPlaying] = useState(false)
-	const [alarmLink, setAlarmLink] = useState(ALARM_LINKS[0])
-	const [alarmPlay, setAlarmPlay] = useState(false)
+	const [alarmLink, setAlarmLink] = useState(user?.alarm.link)
+	const [alarmPlay, setAlarmPlay] = useState(user?.alarm.isOn)
 
+	// Templates
+	const [templates, setTemplates] = useState(user?.templates)
+
+	// Audio
 	const audioRef = useRef()
 	const alarmRef = useRef()
 	const noisesRef = useRef([])
@@ -66,8 +84,12 @@ function AppProvider({ children }) {
 			if (!pomodoroTimeCd) {
 				console.log('time out')
 				if (alarmPlay) {
+					audioRef.current.pause()
 					alarmRef.current.play()
-					setTimeout(() => alarmRef.current.pause(), 7000)
+					setTimeout(() => {
+						alarmRef.current.pause()
+						audioRef.current.play()
+					}, 7000)
 				}
 				setIsPomodoroTimePlaying(false)
 				setIsBreak(true)
@@ -92,8 +114,12 @@ function AppProvider({ children }) {
 			if (!breakTimeCd) {
 				console.log('time out')
 				if (alarmPlay) {
+					audioRef.current.pause()
 					alarmRef.current.play()
-					setTimeout(() => alarmRef.current.pause(), 7000)
+					setTimeout(() => {
+						alarmRef.current.pause()
+						audioRef.current.play()
+					}, 7000)
 				}
 				setIsBreakTimePlaying(false)
 				setIsBreak(false)
@@ -111,6 +137,8 @@ function AppProvider({ children }) {
 		return () => clearTimeout(breakTimeout)
 	}, [isBreakTimePlaying, breakTimeCd])
 
+	console.log(user)
+
 	const value = {
 		alarmRef,
 		noisesRef,
@@ -119,14 +147,14 @@ function AppProvider({ children }) {
 		setCurrentSession,
 		currentSong,
 		setCurrentSong,
+		templates,
+		setTemplates,
 		modalType,
 		setModalType,
 		background,
 		setBackground,
 		isAudioPlaying,
 		setIsPlaying,
-		templates,
-		setTemplates,
 		breakTime,
 		setBreakTime,
 		pomodoroTime,
@@ -145,8 +173,6 @@ function AppProvider({ children }) {
 		setAlarmLink,
 		alarmPlay,
 		setAlarmPlay,
-		sessionList,
-		setSessionList,
 		pomodoroTimeout,
 		breakTimeout,
 	}

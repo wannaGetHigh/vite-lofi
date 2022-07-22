@@ -1,14 +1,14 @@
 import { useState, useContext } from 'react'
 import Draggable from 'react-draggable'
 
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import Button from '../Button'
 import { twitterIcon, closeIcon } from '../../assets/icons'
 
 function ShareModal() {
 	const { setModalType } = useContext(AppContext)
 	const [copied, setCopied] = useState(false)
-	const link = 'http://localhost:3000/'
+	const link = 'http://lofi-chill-3207e.web.app'
 
 	const handleClose = () => {
 		setModalType(null)

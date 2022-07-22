@@ -7,7 +7,7 @@ import Button from '../Button'
 import { closeIcon } from '../../assets/icons'
 import { logoImg } from '../../assets/images'
 import { TUTORIAL_VIDEOS_LINKS } from '../../constants'
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 
 function CarouselText({
 	first,

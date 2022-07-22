@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import Draggable from 'react-draggable'
 
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import Button from '../Button'
 import { closeIcon } from '../../assets/icons'
 

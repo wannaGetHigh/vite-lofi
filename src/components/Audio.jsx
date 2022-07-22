@@ -7,7 +7,7 @@ import {
 	pauseIcon,
 	clockIcon,
 } from '../assets/icons'
-import { AppContext } from '../context/AppProvider'
+import { AppContext } from '../context'
 import { nextSong, prevSong } from '../utils'
 import { NOISE_LINKS } from '../constants'
 import { convertTime } from '../utils'
@@ -125,7 +125,7 @@ function Audio() {
 				/>
 			))}
 			{/* Alarm sound */}
-			<audio ref={alarmRef} loop src={alarmLink.link} />
+			<audio ref={alarmRef} loop src={alarmLink} />
 		</div>
 	)
 }

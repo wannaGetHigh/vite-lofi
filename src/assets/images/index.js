@@ -1,4 +1,5 @@
 import logoImg from './logo.gif'
+import logoText from './logoText.jpg'
 import setChillImg from './thumbnails/set-chill.png'
 import setSpringImg from './thumbnails/set-spring.png'
 import setNorthernImg from './thumbnails/set-northern.png'
@@ -40,6 +41,7 @@ import mosaicImg from './social-mosaic.svg'
 
 export {
 	logoImg,
+	logoText,
 	setChillImg,
 	setSpringImg,
 	setNorthernImg,

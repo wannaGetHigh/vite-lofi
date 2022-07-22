@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 
-import { AppContext } from '../../context/AppProvider'
+import { AppContext, AuthContext } from '../../context'
 import Button from '../Button'
 import { SETS, SLEEPY_LINKS, JAZZY_LINKS, CHILL_LINKS } from '../../constants'
 import { changeBackground, randomSong } from '../../utils'
@@ -14,16 +14,18 @@ import {
 	focusActiveIcon,
 	binIcon,
 } from '../../assets/icons'
+import { updateUser } from '../../firebase'
 
 function Template() {
+	const { uid } = useContext(AuthContext)
 	const {
 		setBackground,
 		background,
-		setTemplates,
-		templates,
 		setCurrentSong,
 		setIsPlaying,
 		audioRef,
+		templates,
+		setTemplates,
 	} = useContext(AppContext)
 	const [activeChill, setActiveChill] = useState(chillTemplateIcon)
 	const [activeSleepy, setActiveSleepy] = useState(sleepyTemplateIcon)
@@ -49,6 +51,8 @@ function Template() {
 		const newBg = changeBackground(background, condition)
 
 		setBackground(newBg)
+
+		if (uid) updateUser(uid, { background: newBg })
 	}
 
 	const handleChangeMood = (type) => {
@@ -65,10 +69,22 @@ function Template() {
 		setCurrentSong(newSong)
 		setIsPlaying(true)
 		audioRef.current.autoplay = true
+
+		if (uid) updateUser(uid, { 'background.mood': type })
+	}
+
+	const handleChangeTemplate = (mood, conditionBg) => {
+		handleChangeBg(conditionBg)
+		handleChangeMood(mood)
 	}
 
 	const deleteTemplate = (delTemp) => {
-		setTemplates((prev) => prev.filter((item) => item.scene !== delTemp.scene))
+		// setTemplates((prev) => prev.filter((item) => item.scene !== delTemp.scene))
+		const newTemplate = templates.filter(
+			(template) => template.scene !== delTemp.scene,
+		)
+		setTemplates(newTemplate)
+		if (uid) updateUser(uid, { templates: newTemplate })
 	}
 
 	return (
@@ -82,15 +98,12 @@ function Template() {
 						className="h-[120px] cursor-pointer"
 						onMouseEnter={() => setActiveChill(chillActiveIcon)}
 						onMouseLeave={() => setActiveChill(chillTemplateIcon)}
-						onClick={() => {
-							handleChangeMood('Chilly')
-							handleChangeBg({
-								set: 'forest',
-								scene: 'forest2',
-								day: true,
-								rainy: false,
-							})
-						}}
+						onClick={handleChangeTemplate.bind(this, 'Chilly', {
+							set: 'forest',
+							scene: 'forest2',
+							day: true,
+							rainy: false,
+						})}
 					/>
 					<img
 						src={activeFocus}
@@ -98,15 +111,12 @@ function Template() {
 						className="h-[120px] cursor-pointer"
 						onMouseEnter={() => setActiveFocus(focusActiveIcon)}
 						onMouseLeave={() => setActiveFocus(focusTemplateIcon)}
-						onClick={() => {
-							handleChangeMood('Jazzy')
-							handleChangeBg({
-								set: 'cafe',
-								scene: 'cafe1',
-								day: true,
-								rainy: true,
-							})
-						}}
+						onClick={handleChangeTemplate.bind(this, 'Jazzy', {
+							set: 'cafe',
+							scene: 'cafe1',
+							day: true,
+							rainy: true,
+						})}
 					/>
 					<img
 						src={activeSleepy}
@@ -114,15 +124,12 @@ function Template() {
 						className="h-[120px] cursor-pointer"
 						onMouseEnter={() => setActiveSleepy(sleepyActiveIcon)}
 						onMouseLeave={() => setActiveSleepy(sleepyTemplateIcon)}
-						onClick={() => {
-							handleChangeMood('Sleepy')
-							handleChangeBg({
-								set: 'van',
-								scene: 'van1',
-								day: true,
-								rainy: false,
-							})
-						}}
+						onClick={handleChangeTemplate.bind(this, 'Sleepy', {
+							set: 'van',
+							scene: 'van1',
+							day: true,
+							rainy: false,
+						})}
 					/>
 				</div>
 				<h4 className="my-4 text-xl font-bold select-none">Templates</h4>

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 
-import { AppContext } from '../../context/AppProvider'
+import { AppContext } from '../../context'
 import Button from '../Button'
 import {
 	clockIcon,
